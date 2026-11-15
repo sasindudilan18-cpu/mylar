@@ -1,21 +1,501 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DilanMax Packaging — Custom Mylar Bag Design Studio</title>
-    <meta name="description" content="Custom Mylar bag packaging design portfolio and Fiverr order showcase." />
-    <meta property="og:title" content="DilanMax Packaging — Custom Mylar Bag Design Studio" />
-    <meta property="og:description" content="Custom Mylar bag packaging design portfolio and Fiverr order showcase." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DilanMax Packaging — Custom Mylar Bag Design Studio</title>
+  <meta name="description" content="Custom Mylar bag packaging design portfolio and Fiverr order showcase." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Bricolage Grotesque', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            sans: ['DM Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; background: #F7F7F5; color: #111113; font-family: 'DM Sans', sans-serif; }
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#F7F7F5] text-[#111113] antialiased">
+  <header class="sticky top-0 z-30 border-b border-black/10 bg-[#F7F7F5]/95 backdrop-blur-sm">
+    <div class="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 sm:h-16 sm:gap-8 sm:px-6 lg:px-8">
+      <a href="#top" class="font-display text-base font-bold tracking-tight text-[#111113] whitespace-nowrap shrink-0 sm:text-lg">DilanMax</a>
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium text-[#4B4B52]">
+        <a href="#designs" class="hover:text-[#111113]">Designs</a>
+        <a href="#finishes" class="hover:text-[#111113]">Finishes</a>
+        <a href="#process" class="hover:text-[#111113]">Process</a>
+        <a href="#faq" class="hover:text-[#111113]">FAQ</a>
+      </nav>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="header-account-btn" type="button" onclick="openAccountModal()" class="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-black/15 bg-white px-3 py-1.5 text-xs font-medium text-[#111113] whitespace-nowrap hover:bg-[#EFEFED]">
+          <span id="header-account-label">Login</span>
+        </button>
+        <a href="https://www.fiverr.com/s/bk0w0Xq" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[38px] items-center gap-1 rounded-lg bg-[#066E45] px-3 py-1.5 sm:px-4 text-xs font-semibold text-white whitespace-nowrap hover:bg-[#055837]">
+          <span class="sm:hidden">Order</span>
+          <span class="hidden sm:inline">Order on Fiverr</span>
+          <span>↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
+  <main>
+    <section id="top" class="border-b border-black/10 bg-[#F7F7F5]">
+      <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-16 lg:px-8">
+        <div class="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-12 lg:gap-12">
+          <div class="flex flex-col justify-between lg:col-span-6">
+            <div>
+              <p class="text-xs font-medium tracking-wide text-[#52525B]">Custom Mylar Packaging · Die-Cut &amp; Foil Print Ready</p>
+              <h1 class="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-[#111113] sm:mt-4 sm:text-5xl">
+                Mylar bag designs engineered to stand out on the shelf.
+              </h1>
+              <p class="mt-4 max-w-xl text-sm leading-relaxed text-[#4B4B52] sm:text-base">
+                Bespoke 3.5g stand-up pouches, custom die-cut silhouettes, and holographic foil artwork delivered with print-ready CMYK layers, spot-UV masks, and realistic 3D mockups directly through Fiverr.
+              </p>
+            </div>
+            <div class="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
+              <a href="https://www.fiverr.com/s/bk0w0Xq" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-xl bg-[#066E45] px-6 py-3 text-sm font-semibold text-white hover:bg-[#055837]">
+                <span>Custom Order Now Fiverr</span>
+                <span>↗</span>
+              </a>
+              <a href="#designs" class="inline-flex min-h-[46px] items-center justify-center rounded-xl border border-black/15 bg-white px-5 py-3 text-sm font-medium text-[#111113] hover:bg-[#EFEFED]">
+                Browse Designs ↓
+              </a>
+            </div>
+          </div>
+          <div class="lg:col-span-6">
+            <div class="relative flex aspect-[16/10] sm:h-full sm:min-h-[300px] items-center justify-center overflow-hidden rounded-2xl bg-[#111113] p-6 text-white">
+              <svg viewBox="0 0 420 240" class="h-full w-full max-w-md" xmlns="http://www.w3.org/2000/svg" aria-label="Custom Mylar pouches showcase">
+                <defs>
+                  <linearGradient id="holo" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#34d399"/>
+                    <stop offset="50%" stop-color="#38bdf8"/>
+                    <stop offset="100%" stop-color="#f472b6"/>
+                  </linearGradient>
+                </defs>
+                <rect x="28" y="34" width="108" height="176" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/>
+                <line x1="28" y1="62" x2="136" y2="62" stroke="#4b5563" stroke-width="2"/>
+                <rect x="46" y="88" width="72" height="58" rx="6" fill="url(#holo)" opacity="0.9"/>
+                <text x="82" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">AURORA</text>
+                <rect x="156" y="20" width="114" height="196" rx="14" fill="#18181b" stroke="#0B8A57" stroke-width="2.5"/>
+                <line x1="156" y1="50" x2="270" y2="50" stroke="#3f3f46" stroke-width="2"/>
+                <circle cx="213" cy="108" r="28" fill="url(#holo)"/>
+                <text x="213" y="164" text-anchor="middle" fill="#ffffff" font-size="13" font-family="sans-serif" font-weight="700">DILANMAX</text>
+                <text x="213" y="182" text-anchor="middle" fill="#a1a1aa" font-size="9" font-family="monospace">3.5g MYLAR</text>
+                <rect x="290" y="38" width="104" height="172" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/>
+                <line x1="290" y1="64" x2="394" y2="64" stroke="#4b5563" stroke-width="2"/>
+                <polygon points="342,84 370,136 314,136" fill="#fbbf24" opacity="0.9"/>
+                <text x="342" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">OBSIDIAN</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="mt-8 grid grid-cols-2 gap-4 border-t border-black/10 pt-6 sm:mt-12 sm:grid-cols-4">
+          <div><p class="font-mono text-xl font-semibold tabular-nums" id="stat-count">4+</p><p class="text-xs text-[#52525B]">Curated Mylar Concepts</p></div>
+          <div><p class="font-mono text-xl font-semibold">24–48h</p><p class="text-xs text-[#52525B]">First Concept Delivery</p></div>
+          <div><p class="font-mono text-xl font-semibold">AI · PSD · PDF</p><p class="text-xs text-[#52525B]">Print-Ready Source Files</p></div>
+          <div><p class="font-mono text-xl font-semibold">3D Render</p><p class="text-xs text-[#52525B]">Included Every Fiverr Order</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="designs" class="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+      <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div>
+          <p class="text-xs font-medium tracking-wide text-[#52525B]">Selected Packaging Portfolio</p>
+          <h2 class="mt-2 font-display text-2xl font-bold tracking-tight text-[#111113] sm:text-4xl">Mylar bag designs ready for custom orders.</h2>
+        </div>
+        <div class="-mx-4 overflow-x-auto no-scrollbar px-4 sm:mx-0 sm:px-0">
+          <div id="category-tabs" class="inline-flex w-max items-center gap-1 rounded-xl bg-[#EAEAE6] p-1"></div>
+        </div>
+      </div>
+      <div id="designs-grid" class="mt-8 grid grid-cols-1 gap-5 sm:mt-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8"></div>
+    </section>
+
+    <section id="finishes" class="border-t border-black/10 bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <p class="text-xs font-medium text-[#52525B]">Print Specifications &amp; Deliverables</p>
+        <h2 class="mt-2 font-display text-2xl font-bold text-[#111113] sm:text-4xl">Built for press accuracy, not just flat concepts.</h2>
+        <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div class="rounded-2xl border border-black/10 bg-[#F7F7F5] p-5"><p class="font-mono text-xs font-medium text-[#066E45]">01</p><h3 class="mt-2 font-display text-lg font-semibold">Custom Die-Line &amp; Bleed</h3><p class="mt-1.5 text-sm text-[#4B4B52]">Exact manufacturer templates with 3mm bleed, zipper tracks, and tear-notch alignment.</p></div>
+          <div class="rounded-2xl border border-black/10 bg-[#F7F7F5] p-5"><p class="font-mono text-xs font-medium text-[#066E45]">02</p><h3 class="mt-2 font-display text-lg font-semibold">Foil &amp; Spot UV Plates</h3><p class="mt-1.5 text-sm text-[#4B4B52]">Dedicated vector layers for holographic accents, metallic stamping, and matte varnish.</p></div>
+          <div class="rounded-2xl border border-black/10 bg-[#F7F7F5] p-5"><p class="font-mono text-xs font-medium text-[#066E45]">03</p><h3 class="mt-2 font-display text-lg font-semibold">3D Studio Mockups</h3><p class="mt-1.5 text-sm text-[#4B4B52]">Photorealistic front and angled stand-up pouch renders ready for storefronts and social.</p></div>
+          <div class="rounded-2xl border border-black/10 bg-[#F7F7F5] p-5"><p class="font-mono text-xs font-medium text-[#066E45]">04</p><h3 class="mt-2 font-display text-lg font-semibold">Editable Source Files</h3><p class="mt-1.5 text-sm text-[#4B4B52]">Full layered AI / PSD files plus press-ready CMYK PDFs with 100% commercial rights.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="process" class="border-t border-black/10 bg-[#F7F7F5]">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <div class="flex flex-col justify-between gap-6 rounded-2xl bg-[#111113] p-8 text-white sm:p-12 lg:flex-row lg:items-center">
+          <div>
+            <p class="text-xs font-medium text-white/70">Direct Fiverr Ordering</p>
+            <h2 class="mt-2 font-display text-2xl font-bold sm:text-4xl">Ready to launch your next Mylar packaging line?</h2>
+            <p class="mt-3 max-w-2xl text-sm text-white/80 sm:text-base">Share your brand brief directly on Fiverr for a custom stand-up pouch, die-cut bag, or full strain series.</p>
+          </div>
+          <a href="https://www.fiverr.com/s/bk0w0Xq" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[48px] shrink-0 items-center justify-center gap-2 rounded-xl bg-[#0B8A57] px-6 py-3.5 text-sm font-semibold text-white hover:bg-[#097549]">
+            <span>Custom Order Now Fiverr</span><span>↗</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="border-t border-black/10 bg-white">
+      <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:px-8">
+        <h2 class="font-display text-2xl font-bold text-[#111113] sm:text-3xl">Common Questions</h2>
+        <div class="mt-6 divide-y divide-black/10 border-y border-black/10">
+          <details class="py-4" open><summary class="cursor-pointer font-display font-semibold text-[#111113]">What files do I receive on Fiverr?</summary><p class="mt-2 text-sm text-[#4B4B52]">Print-ready CMYK PDFs with bleed &amp; die-lines, foil/spot-UV layers, editable AI/PSD source files, and 3D mockups.</p></details>
+          <details class="py-4"><summary class="cursor-pointer font-display font-semibold text-[#111113]">Can you design custom die-cut shapes or 3.5g pouches?</summary><p class="mt-2 text-sm text-[#4B4B52]">Yes — 3.5g stand-up pouches, gusseted bags, child-resistant exit pouches, and custom contour die-cut Mylar bags.</p></details>
+          <details class="py-4"><summary class="cursor-pointer font-display font-semibold text-[#111113]">How fast is turnaround?</summary><p class="mt-2 text-sm text-[#4B4B52]">Initial concepts are delivered in 24 to 48 hours on Fiverr with fast revisions until press approval.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-black/10 bg-[#F7F7F5]">
+    <div class="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between text-xs text-[#52525B]">
+      <p>© 2026 DilanMax Packaging. All rights reserved.</p>
+      <div class="flex flex-wrap gap-5 font-medium text-[#4B4B52]">
+        <a href="#designs" class="hover:text-[#111113]">Designs</a>
+        <button type="button" onclick="openAccountModal()" class="hover:text-[#111113]">Login</button>
+        <a href="https://www.fiverr.com/s/bk0w0Xq" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#066E45]">Fiverr Gig ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <div id="account-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/65 p-0 sm:items-center sm:p-4" onclick="closeAccountModal()">
+    <div class="max-h-[92dvh] w-full max-w-xl overflow-y-auto rounded-t-2xl bg-white p-5 shadow-2xl sm:rounded-2xl sm:p-8" onclick="event.stopPropagation()">
+      <div class="flex items-center justify-between border-b border-black/10 pb-4">
+        <div>
+          <h2 id="modal-title" class="font-display text-lg font-bold text-[#111113]">Sign In</h2>
+          <p id="modal-subtitle" class="text-xs text-[#52525B]">Sign in or create an account.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="signout-btn" type="button" onclick="logout()" class="hidden h-9 rounded-lg border border-black/10 px-3 text-xs font-medium text-[#4B4B52] hover:bg-[#EFEFED]">Sign Out</button>
+          <button type="button" onclick="closeAccountModal()" class="flex h-9 w-9 items-center justify-center rounded-lg text-[#52525B] hover:bg-[#EFEFED]">✕</button>
+        </div>
+      </div>
+
+      <div id="auth-view" class="mt-5">
+        <div class="flex gap-1 rounded-xl bg-[#EAEAE6] p-1">
+          <button id="tab-login" type="button" onclick="setAuthMode('login')" class="flex-1 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-[#111113]">Sign In</button>
+          <button id="tab-register" type="button" onclick="setAuthMode('register')" class="flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#52525B]">Create Account</button>
+        </div>
+        <form onsubmit="handleAuth(event)" class="mt-4 space-y-3.5">
+          <div id="name-wrap" class="hidden">
+            <label class="block text-xs font-medium">Your Name</label>
+            <input id="auth-name" type="text" placeholder="Enter your name" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium">Email</label>
+            <input id="auth-email" type="text" required placeholder="Enter email" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-medium">Password</label>
+            <input id="auth-pass" type="password" required placeholder="Enter password" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+          </div>
+          <p id="auth-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700"></p>
+          <button id="auth-submit-btn" type="submit" class="h-11 w-full rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Sign In</button>
+        </form>
+      </div>
+
+      <div id="member-view" class="mt-5 hidden space-y-3">
+        <p class="text-sm font-semibold">Saved Mylar Bags</p>
+        <div id="saved-list" class="space-y-2.5"></div>
+      </div>
+
+      <div id="studio-view" class="mt-5 hidden space-y-4">
+        <form onsubmit="handleUploadBag(event)" class="space-y-3.5">
+          <div>
+            <label class="block text-xs font-medium">Upload Bag Image</label>
+            <input id="bag-file" type="file" accept="image/*" onchange="handleFilePick(event)" class="mt-1 block w-full text-xs" />
+            <input id="bag-url" type="url" placeholder="Or paste image URL (optional)" class="mt-2 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-xs" />
+          </div>
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <div>
+              <label class="block text-xs font-medium">Bag Title</label>
+              <input id="bag-title" type="text" required placeholder="e.g. Mango Haze 3.5g" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+            </div>
+            <div>
+              <label class="block text-xs font-medium">Category</label>
+              <select id="bag-cat" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm">
+                <option>3.5g Stand-Up</option>
+                <option>Die-Cut Shape</option>
+                <option>Holographic Foil</option>
+                <option>Matte &amp; Spot UV</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <input id="bag-finish" type="text" value="Matte Soft-Touch + Foil" placeholder="Finish" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+            <input id="bag-dims" type="text" value='4.0" × 5.2" · 3.5g Stand-Up' placeholder="Dimensions" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+          </div>
+          <input id="bag-fiverr" type="url" value="https://www.fiverr.com/s/bk0w0Xq" placeholder="Fiverr Link" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 font-mono text-xs" />
+          <button type="submit" class="h-11 w-full rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Publish Mylar Bag</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/70 p-0 sm:items-center sm:p-4" onclick="closeLightbox()">
+    <div class="relative w-full max-w-2xl overflow-hidden rounded-t-2xl bg-white shadow-xl sm:rounded-2xl" onclick="event.stopPropagation()">
+      <button type="button" onclick="closeLightbox()" class="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-lg bg-white/90 text-[#111113]">✕</button>
+      <div id="lightbox-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const FIVERR_URL = "https://www.fiverr.com/s/bk0w0Xq";
+    const CATEGORIES = ['All', '3.5g Stand-Up', 'Die-Cut Shape', 'Holographic Foil', 'Matte & Spot UV'];
+    const INITIAL_DESIGNS = [
+      {
+        id: 'mylar-berry-fusion',
+        title: 'Aroma Botanica — Berry Fusion',
+        category: 'Holographic Foil',
+        finish: 'Matte Soft-Touch + Iridescent Foil',
+        dimensions: '4.0" × 5.2" · 3.5g Stand-Up',
+        description: 'Deep indigo matte pouch engineered with rainbow holographic botanical linework and tear-notch header.',
+        presetKey: 'preset:cosmic-berry',
+        fiverrUrl: FIVERR_URL
+      },
+      {
+        id: 'mylar-emerald-prism',
+        title: 'Emerald Prism — Custom Die-Cut',
+        category: 'Die-Cut Shape',
+        finish: 'Custom Contour Die-Cut + Prism Foil',
+        dimensions: '4.7" × 6.0" · Custom Silhouette',
+        description: 'Precision contour die-cut Mylar pouch featuring metallic prism highlights and front clear window.',
+        presetKey: 'preset:diecut-emerald',
+        fiverrUrl: FIVERR_URL
+      },
+      {
+        id: 'mylar-volcanica-obsidian',
+        title: 'Volcanica — Obsidian Gold Crest',
+        category: 'Matte & Spot UV',
+        finish: 'Obsidian Matte + Embossed Gold Foil',
+        dimensions: '5.5" × 8.5" · Box-Bottom Pouch',
+        description: 'Architectural dark matte packaging featuring hot-stamped gold emblem work and heavy-barrier seal.',
+        presetKey: 'preset:obsidian-gold',
+        fiverrUrl: FIVERR_URL
+      },
+      {
+        id: 'mylar-citrus-squeeze',
+        title: 'Citrus Squeeze — Brushed Chrome',
+        category: '3.5g Stand-Up',
+        finish: 'Brushed Metallic Film + Spot Gloss UV',
+        dimensions: '5.0" × 7.5" · Stand-Up Zip',
+        description: 'High-visibility retail stand-up pouch pairing raw brushed aluminum with vibrant citrus blocking.',
+        presetKey: 'preset:chrome-lemon',
+        fiverrUrl: FIVERR_URL
+      }
+    ];
+    let activeCategory = 'All';
+    let authMode = 'login';
+    let uploadedDataUri = '';
+
+    function getDesigns() {
+      try {
+        const stored = JSON.parse(localStorage.getItem('dm_html_designs') || 'null');
+        return Array.isArray(stored) && stored.length ? stored : INITIAL_DESIGNS;
+      } catch { return INITIAL_DESIGNS; }
+    }
+    function saveDesigns(list) { localStorage.setItem('dm_html_designs', JSON.stringify(list)); }
+    function getSession() { try { return JSON.parse(localStorage.getItem('dm_html_session') || 'null'); } catch { return null; } }
+    function setSession(user) {
+      if (user) localStorage.setItem('dm_html_session', JSON.stringify(user));
+      else localStorage.removeItem('dm_html_session');
+    }
+    function getUsers() { try { return JSON.parse(localStorage.getItem('dm_html_users') || '[]'); } catch { return []; } }
+
+    function presetSvg(title, color1, color2) {
+      const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#EFEFED"/><rect x="125" y="28" width="150" height="244" rx="16" fill="' + color1 + '"/><line x1="125" y1="62" x2="275" y2="62" stroke="#ffffff44" stroke-width="2"/><circle cx="200" cy="138" r="36" fill="' + color2 + '"/><text x="200" y="218" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">' + String(title).slice(0, 18) + '</text></svg>';
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    function getImageSrc(d) {
+      if (d.imageUrl) return d.imageUrl;
+      if (d.presetKey === 'preset:diecut-emerald') return presetSvg(d.title, '#065f46', '#34d399');
+      if (d.presetKey === 'preset:obsidian-gold') return presetSvg(d.title, '#18181b', '#f59e0b');
+      if (d.presetKey === 'preset:chrome-lemon') return presetSvg(d.title, '#374151', '#facc15');
+      return presetSvg(d.title, '#1e1b4b', '#38bdf8');
+    }
+
+    function render() {
+      const designs = getDesigns();
+      const user = getSession();
+      document.getElementById('stat-count').textContent = Math.max(designs.length, 4) + '+';
+      document.getElementById('header-account-label').textContent = user ? user.name : 'Login';
+
+      const tabsEl = document.getElementById('category-tabs');
+      tabsEl.innerHTML = CATEGORIES.map(cat => {
+        const active = cat === activeCategory;
+        return '<button type="button" onclick="setCat(\'' + cat + '\')" class="min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap ' + (active ? 'bg-white text-[#111113] shadow-sm' : 'text-[#52525B]') + '">' + cat + '</button>';
+      }).join('');
+
+      const list = activeCategory === 'All' ? designs : designs.filter(d => d.category === activeCategory);
+      const grid = document.getElementById('designs-grid');
+      grid.innerHTML = list.map(d => {
+        const src = getImageSrc(d);
+        const isOwner = user && user.role === 'admin';
+        const isSaved = user && Array.isArray(user.saved) && user.saved.includes(d.id);
+        return '<article class="flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-4">' +
+          '<div>' +
+            '<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#EFEFED]">' +
+              '<img src="' + src + '" alt="' + d.title + '" onclick="openLightbox(\'' + d.id + '\')" class="h-full w-full cursor-pointer object-cover" />' +
+              (isOwner
+                ? '<button type="button" onclick="deleteDesign(\'' + d.id + '\')" class="absolute right-2.5 top-2.5 h-9 rounded-lg bg-white/95 px-2.5 text-xs font-semibold text-red-700 shadow">Delete</button>'
+                : '<button type="button" onclick="toggleSave(\'' + d.id + '\')" class="absolute right-2.5 top-2.5 flex h-9 w-9 items-center justify-center rounded-lg shadow ' + (isSaved ? 'bg-[#066E45] text-white' : 'bg-white/90 text-[#111113]') + '">★</button>') +
+            '</div>' +
+            '<p class="mt-3 text-xs text-[#52525B]">' + d.category + ' · ' + d.finish + '</p>' +
+            '<h3 class="mt-1 font-display text-lg font-semibold text-[#111113]">' + d.title + '</h3>' +
+            '<p class="mt-0.5 font-mono text-xs text-[#52525B]">' + d.dimensions + '</p>' +
+          '</div>' +
+          '<div class="mt-4 pt-3 border-t border-black/5">' +
+            '<a href="' + (d.fiverrUrl || FIVERR_URL) + '" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#066E45] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#055837]">Custom Order Now Fiverr ↗</a>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+    }
+
+    function setCat(cat) { activeCategory = cat; render(); }
+
+    function openLightbox(id) {
+      const d = getDesigns().find(x => x.id === id);
+      if (!d) return;
+      document.getElementById('lightbox-body').innerHTML =
+        '<img src="' + getImageSrc(d) + '" class="aspect-[4/3] w-full object-cover bg-[#EFEFED]" />' +
+        '<div class="p-6">' +
+          '<p class="text-xs text-[#52525B]">' + d.category + ' · ' + d.finish + '</p>' +
+          '<h3 class="mt-1 font-display text-2xl font-bold">' + d.title + '</h3>' +
+          '<p class="mt-2 text-sm text-[#4B4B52]">' + (d.description || '') + '</p>' +
+          '<a href="' + (d.fiverrUrl || FIVERR_URL) + '" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex min-h-[46px] w-full items-center justify-center rounded-xl bg-[#066E45] text-sm font-semibold text-white">Custom Order Now Fiverr ↗</a>' +
+        '</div>';
+      const m = document.getElementById('lightbox-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    }
+    function closeLightbox() { const m = document.getElementById('lightbox-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+
+    function openAccountModal() {
+      const user = getSession();
+      const modal = document.getElementById('account-modal');
+      document.getElementById('auth-view').classList.toggle('hidden', !!user);
+      document.getElementById('signout-btn').classList.toggle('hidden', !user);
+      document.getElementById('studio-view').classList.toggle('hidden', !(user && user.role === 'admin'));
+      document.getElementById('member-view').classList.toggle('hidden', !(user && user.role === 'member'));
+      document.getElementById('modal-title').textContent = !user ? (authMode === 'login' ? 'Sign In' : 'Create Account') : (user.role === 'admin' ? 'Studio Workspace' : 'Welcome, ' + user.name);
+      if (user && user.role === 'member') renderSaved();
+      modal.classList.remove('hidden'); modal.classList.add('flex');
+    }
+    function closeAccountModal() { const m = document.getElementById('account-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      document.getElementById('name-wrap').classList.toggle('hidden', mode !== 'register');
+      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? 'Sign In' : 'Create Account';
+      document.getElementById('tab-login').className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (mode === 'login' ? 'bg-white text-[#111113]' : 'text-[#52525B]');
+      document.getElementById('tab-register').className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (mode === 'register' ? 'bg-white text-[#111113]' : 'text-[#52525B]');
+    }
+
+    function handleAuth(e) {
+      e.preventDefault();
+      const email = document.getElementById('auth-email').value.trim().toLowerCase();
+      const pass = document.getElementById('auth-pass').value;
+      const err = document.getElementById('auth-error');
+      err.classList.add('hidden');
+
+      if (authMode === 'login' && email === 'dilanmax2' && pass === 'sasindumax') {
+        setSession({ name: 'DilanMax', email: 'dilanmax2', role: 'admin', saved: [] });
+        openAccountModal(); render(); return;
+      }
+      const users = getUsers();
+      if (authMode === 'register') {
+        const name = document.getElementById('auth-name').value.trim();
+        if (!name || email === 'dilanmax2' || users.some(u => u.email === email)) {
+          err.textContent = 'Invalid details or email already exists.'; err.classList.remove('hidden'); return;
+        }
+        const newUser = { name, email, pass, role: 'member', saved: [] };
+        users.push(newUser);
+        localStorage.setItem('dm_html_users', JSON.stringify(users));
+        setSession(newUser);
+        openAccountModal(); render(); return;
+      }
+      const match = users.find(u => u.email === email && u.pass === pass);
+      if (!match) { err.textContent = 'Invalid email or password.'; err.classList.remove('hidden'); return; }
+      setSession(match); openAccountModal(); render();
+    }
+
+    function logout() { setSession(null); openAccountModal(); render(); }
+
+    function toggleSave(id) {
+      const user = getSession();
+      if (!user) { openAccountModal(); return; }
+      const saved = Array.isArray(user.saved) ? user.saved : [];
+      user.saved = saved.includes(id) ? saved.filter(x => x !== id) : [...saved, id];
+      setSession(user);
+      const users = getUsers().map(u => u.email === user.email ? user : u);
+      localStorage.setItem('dm_html_users', JSON.stringify(users));
+      render();
+    }
+
+    function renderSaved() {
+      const user = getSession();
+      const designs = getDesigns();
+      const items = designs.filter(d => (user.saved || []).includes(d.id));
+      document.getElementById('saved-list').innerHTML = items.length
+        ? items.map(d => '<div class="flex items-center justify-between gap-2 rounded-xl border border-black/10 p-3"><span class="text-sm font-semibold">' + d.title + '</span><a href="' + (d.fiverrUrl || FIVERR_URL) + '" target="_blank" class="rounded-lg bg-[#066E45] px-3 py-1.5 text-xs font-semibold text-white">Order Fiverr ↗</a></div>').join('')
+        : '<p class="text-xs text-[#52525B]">Tap ★ on any bag card to save it here.</p>';
+    }
+
+    function handleFilePick(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+      const r = new FileReader();
+      r.onload = () => { uploadedDataUri = r.result; };
+      r.readAsDataURL(f);
+    }
+
+    function handleUploadBag(e) {
+      e.preventDefault();
+      const title = document.getElementById('bag-title').value.trim();
+      const url = document.getElementById('bag-url').value.trim();
+      const img = uploadedDataUri || url;
+      if (!title || !img) return;
+      const list = getDesigns();
+      list.unshift({
+        id: 'bag_' + Date.now(),
+        title,
+        category: document.getElementById('bag-cat').value,
+        finish: document.getElementById('bag-finish').value.trim() || 'Matte + Foil',
+        dimensions: document.getElementById('bag-dims').value.trim() || '4.0" × 5.2"',
+        description: 'Custom print-ready Mylar bag design.',
+        imageUrl: img,
+        fiverrUrl: document.getElementById('bag-fiverr').value.trim() || FIVERR_URL,
+      });
+      saveDesigns(list);
+      uploadedDataUri = '';
+      e.target.reset();
+      closeAccountModal();
+      render();
+    }
+
+    function deleteDesign(id) {
+      saveDesigns(getDesigns().filter(d => d.id !== id));
+      render();
+    }
+
+    render();
+  </script>
+</body>
+</html>
