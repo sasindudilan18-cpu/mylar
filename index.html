@@ -76,30 +76,7 @@
             </div>
           </div>
           <div class="lg:col-span-6">
-            <div class="relative flex aspect-[16/10] sm:h-full sm:min-h-[300px] items-center justify-center overflow-hidden rounded-2xl bg-[#111113] p-6 text-white">
-              <svg viewBox="0 0 420 240" class="h-full w-full max-w-md" xmlns="http://www.w3.org/2000/svg" aria-label="Custom Mylar pouches showcase">
-                <defs>
-                  <linearGradient id="holo" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stop-color="#34d399"/>
-                    <stop offset="50%" stop-color="#38bdf8"/>
-                    <stop offset="100%" stop-color="#f472b6"/>
-                  </linearGradient>
-                </defs>
-                <rect x="28" y="34" width="108" height="176" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/>
-                <line x1="28" y1="62" x2="136" y2="62" stroke="#4b5563" stroke-width="2"/>
-                <rect x="46" y="88" width="72" height="58" rx="6" fill="url(#holo)" opacity="0.9"/>
-                <text x="82" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">AURORA</text>
-                <rect x="156" y="20" width="114" height="196" rx="14" fill="#18181b" stroke="#0B8A57" stroke-width="2.5"/>
-                <line x1="156" y1="50" x2="270" y2="50" stroke="#3f3f46" stroke-width="2"/>
-                <circle cx="213" cy="108" r="28" fill="url(#holo)"/>
-                <text x="213" y="164" text-anchor="middle" fill="#ffffff" font-size="13" font-family="sans-serif" font-weight="700">DILANMAX</text>
-                <text x="213" y="182" text-anchor="middle" fill="#a1a1aa" font-size="9" font-family="monospace">3.5g MYLAR</text>
-                <rect x="290" y="38" width="104" height="172" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/>
-                <line x1="290" y1="64" x2="394" y2="64" stroke="#4b5563" stroke-width="2"/>
-                <polygon points="342,84 370,136 314,136" fill="#fbbf24" opacity="0.9"/>
-                <text x="342" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">OBSIDIAN</text>
-              </svg>
-            </div>
+            <div id="hero-media-box" class="relative flex aspect-[16/10] sm:h-full sm:min-h-[300px] items-center justify-center overflow-hidden rounded-2xl bg-[#111113] text-white"></div>
           </div>
         </div>
         <div class="mt-8 grid grid-cols-2 gap-4 border-t border-black/10 pt-6 sm:mt-12 sm:grid-cols-4">
@@ -175,8 +152,16 @@
     </div>
   </footer>
 
+  <!-- Floating Upload Bar (Visible only when owner is logged in) -->
+  <div id="owner-float-bar" class="fixed bottom-4 right-4 z-40 hidden items-center gap-1.5 rounded-xl bg-[#111113] p-1.5 text-white shadow-lg">
+    <button type="button" onclick="openAccountModal('upload')" class="inline-flex h-10 items-center gap-1.5 rounded-lg bg-[#0B8A57] px-3.5 text-xs font-semibold text-white hover:bg-[#097549]">+ Upload Bags</button>
+    <button type="button" onclick="openAccountModal('site')" class="inline-flex h-10 items-center rounded-lg px-3 text-xs font-medium text-white/90 hover:bg-white/10">Site Images</button>
+    <button type="button" onclick="logout()" class="inline-flex h-10 items-center rounded-lg px-2.5 text-xs font-medium text-white/75 hover:bg-white/10">Sign Out</button>
+  </div>
+
+  <!-- Account / Unlimited Upload Modal -->
   <div id="account-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/65 p-0 sm:items-center sm:p-4" onclick="closeAccountModal()">
-    <div class="max-h-[92dvh] w-full max-w-xl overflow-y-auto rounded-t-2xl bg-white p-5 shadow-2xl sm:rounded-2xl sm:p-8" onclick="event.stopPropagation()">
+    <div class="max-h-[92dvh] w-full max-w-2xl overflow-y-auto rounded-t-2xl bg-white p-5 shadow-2xl sm:rounded-2xl sm:p-8" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between border-b border-black/10 pb-4">
         <div>
           <h2 id="modal-title" class="font-display text-lg font-bold text-[#111113]">Sign In</h2>
@@ -217,16 +202,27 @@
       </div>
 
       <div id="studio-view" class="mt-5 hidden space-y-4">
-        <form onsubmit="handleUploadBag(event)" class="space-y-3.5">
+        <div class="flex gap-1 rounded-xl bg-[#EAEAE6] p-1">
+          <button id="st-tab-upload" type="button" onclick="setStudioTab('upload')" class="flex-1 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-[#111113]">Upload Unlimited Bags</button>
+          <button id="st-tab-manage" type="button" onclick="setStudioTab('manage')" class="flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#52525B]">Manage Bags</button>
+          <button id="st-tab-site" type="button" onclick="setStudioTab('site')" class="flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#52525B]">Site Images</button>
+        </div>
+
+        <form id="st-panel-upload" onsubmit="handleUploadBags(event)" class="space-y-3.5">
           <div>
-            <label class="block text-xs font-medium">Upload Bag Image</label>
-            <input id="bag-file" type="file" accept="image/*" onchange="handleFilePick(event)" class="mt-1 block w-full text-xs" />
-            <input id="bag-url" type="url" placeholder="Or paste image URL (optional)" class="mt-2 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-xs" />
+            <label class="block text-xs font-medium text-[#111113]">Select 1 or Multiple Bag Images (Unlimited)</label>
+            <label class="mt-1.5 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-black/25 bg-[#F7F7F5] p-4 text-center hover:border-black/40">
+              <input id="bag-files" type="file" multiple accept="image/*" onchange="handleFilesPick(event)" class="sr-only" />
+              <span class="text-xs font-semibold text-[#111113]">Tap to choose 1 or many bag images</span>
+              <span class="mt-0.5 text-[11px] text-[#52525B]">Unlimited uploads stored safely in IndexedDB</span>
+            </label>
+            <div id="upload-preview-list" class="mt-2.5 grid grid-cols-3 gap-2 sm:grid-cols-4"></div>
+            <input id="bag-url" type="url" placeholder="Or paste an image URL (optional)" class="mt-2 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-xs" />
           </div>
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label class="block text-xs font-medium">Bag Title</label>
-              <input id="bag-title" type="text" required placeholder="e.g. Mango Haze 3.5g" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+              <label class="block text-xs font-medium">Bag Title (used for single or prefix)</label>
+              <input id="bag-title" type="text" placeholder="e.g. Mango Haze 3.5g" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
             </div>
             <div>
               <label class="block text-xs font-medium">Category</label>
@@ -243,8 +239,26 @@
             <input id="bag-dims" type="text" value='4.0" × 5.2" · 3.5g Stand-Up' placeholder="Dimensions" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
           </div>
           <input id="bag-fiverr" type="url" value="https://www.fiverr.com/s/bk0w0Xq" placeholder="Fiverr Link" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 font-mono text-xs" />
-          <button type="submit" class="h-11 w-full rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Publish Mylar Bag</button>
+          <p id="upload-status" class="hidden rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800"></p>
+          <div class="flex gap-2">
+            <button id="cancel-edit-btn" type="button" onclick="cancelEditBag()" class="hidden h-11 rounded-xl border border-black/15 px-4 text-sm font-medium">Cancel</button>
+            <button id="publish-btn" type="submit" class="h-11 flex-1 rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Publish Mylar Bag(s)</button>
+          </div>
         </form>
+
+        <div id="st-panel-manage" class="hidden space-y-2.5"></div>
+
+        <div id="st-panel-site" class="hidden space-y-4">
+          <div>
+            <p class="text-xs font-semibold text-[#111113]">Hero Showcase Image</p>
+            <p class="mt-0.5 text-xs text-[#52525B]">Upload any custom photo for the main top banner of the website.</p>
+            <label class="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-black/25 bg-[#F7F7F5] p-5 text-center hover:border-black/40">
+              <input type="file" accept="image/*" onchange="handleHeroFilePick(event)" class="sr-only" />
+              <span class="text-xs font-semibold text-[#111113]">Tap to Upload New Hero Image</span>
+            </label>
+          </div>
+          <button type="button" onclick="resetHeroImage()" class="h-10 rounded-xl border border-black/15 px-4 text-xs font-medium text-[#4B4B52] hover:bg-[#EFEFED]">Reset Hero to Default</button>
+        </div>
       </div>
     </div>
   </div>
@@ -301,17 +315,57 @@
         fiverrUrl: FIVERR_URL
       }
     ];
+
+    let designsState = [];
+    let heroImageState = '';
     let activeCategory = 'All';
     let authMode = 'login';
-    let uploadedDataUri = '';
+    let studioTab = 'upload';
+    let pendingImages = [];
+    let editingBagId = null;
 
-    function getDesigns() {
-      try {
-        const stored = JSON.parse(localStorage.getItem('dm_html_designs') || 'null');
-        return Array.isArray(stored) && stored.length ? stored : INITIAL_DESIGNS;
-      } catch { return INITIAL_DESIGNS; }
+    const DB_NAME = 'DilanMaxStudioDB';
+    const STORE_NAME = 'kv';
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = () => {
+          if (!req.result.objectStoreNames.contains(STORE_NAME)) {
+            req.result.createObjectStore(STORE_NAME);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
     }
-    function saveDesigns(list) { localStorage.setItem('dm_html_designs', JSON.stringify(list)); }
+    async function idbGet(key) {
+      const db = await openDB();
+      return new Promise((resolve) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const req = tx.objectStore(STORE_NAME).get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => resolve(null);
+      });
+    }
+    async function idbSet(key, val) {
+      const db = await openDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        tx.objectStore(STORE_NAME).put(val, key);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
     function getSession() { try { return JSON.parse(localStorage.getItem('dm_html_session') || 'null'); } catch { return null; } }
     function setSession(user) {
       if (user) localStorage.setItem('dm_html_session', JSON.stringify(user));
@@ -332,11 +386,31 @@
       return presetSvg(d.title, '#1e1b4b', '#38bdf8');
     }
 
-    function render() {
-      const designs = getDesigns();
+    function renderHero() {
+      const box = document.getElementById('hero-media-box');
       const user = getSession();
-      document.getElementById('stat-count').textContent = Math.max(designs.length, 4) + '+';
+      const isOwner = user && user.role === 'admin';
+      const editBtn = isOwner
+        ? '<button type="button" onclick="openAccountModal(\'site\')" class="absolute right-3 top-3 z-10 inline-flex h-10 items-center rounded-xl bg-white/95 px-3 text-xs font-semibold text-[#111113] shadow">Change Hero Image</button>'
+        : '';
+
+      if (heroImageState) {
+        box.innerHTML = '<img src="' + heroImageState + '" alt="Custom Mylar Packaging" class="h-full w-full object-cover" />' + editBtn;
+      } else {
+        box.innerHTML = editBtn + '<svg viewBox="0 0 420 240" class="h-full w-full max-w-md p-6" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="holo" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#34d399"/><stop offset="50%" stop-color="#38bdf8"/><stop offset="100%" stop-color="#f472b6"/></linearGradient></defs><rect x="28" y="34" width="108" height="176" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/><line x1="28" y1="62" x2="136" y2="62" stroke="#4b5563" stroke-width="2"/><rect x="46" y="88" width="72" height="58" rx="6" fill="url(#holo)" opacity="0.9"/><text x="82" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">AURORA</text><rect x="156" y="20" width="114" height="196" rx="14" fill="#18181b" stroke="#0B8A57" stroke-width="2.5"/><line x1="156" y1="50" x2="270" y2="50" stroke="#3f3f46" stroke-width="2"/><circle cx="213" cy="108" r="28" fill="url(#holo)"/><text x="213" y="164" text-anchor="middle" fill="#ffffff" font-size="13" font-family="sans-serif" font-weight="700">DILANMAX</text><text x="213" y="182" text-anchor="middle" fill="#a1a1aa" font-size="9" font-family="monospace">3.5g MYLAR</text><rect x="290" y="38" width="104" height="172" rx="12" fill="#1f2937" stroke="#374151" stroke-width="2"/><line x1="290" y1="64" x2="394" y2="64" stroke="#4b5563" stroke-width="2"/><polygon points="342,84 370,136 314,136" fill="#fbbf24" opacity="0.9"/><text x="342" y="176" text-anchor="middle" fill="#e5e7eb" font-size="11" font-family="sans-serif" font-weight="700">OBSIDIAN</text></svg>';
+      }
+    }
+
+    function render() {
+      const user = getSession();
+      const isOwner = user && user.role === 'admin';
+      document.getElementById('stat-count').textContent = Math.max(designsState.length, 4) + '+';
       document.getElementById('header-account-label').textContent = user ? user.name : 'Login';
+      const floatBar = document.getElementById('owner-float-bar');
+      floatBar.classList.toggle('hidden', !isOwner);
+      floatBar.classList.toggle('flex', !!isOwner);
+
+      renderHero();
 
       const tabsEl = document.getElementById('category-tabs');
       tabsEl.innerHTML = CATEGORIES.map(cat => {
@@ -344,18 +418,17 @@
         return '<button type="button" onclick="setCat(\'' + cat + '\')" class="min-h-[36px] rounded-lg px-3 py-1.5 text-xs font-medium whitespace-nowrap ' + (active ? 'bg-white text-[#111113] shadow-sm' : 'text-[#52525B]') + '">' + cat + '</button>';
       }).join('');
 
-      const list = activeCategory === 'All' ? designs : designs.filter(d => d.category === activeCategory);
+      const list = activeCategory === 'All' ? designsState : designsState.filter(d => d.category === activeCategory);
       const grid = document.getElementById('designs-grid');
       grid.innerHTML = list.map(d => {
         const src = getImageSrc(d);
-        const isOwner = user && user.role === 'admin';
         const isSaved = user && Array.isArray(user.saved) && user.saved.includes(d.id);
         return '<article class="flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-4">' +
           '<div>' +
             '<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#EFEFED]">' +
               '<img src="' + src + '" alt="' + d.title + '" onclick="openLightbox(\'' + d.id + '\')" class="h-full w-full cursor-pointer object-cover" />' +
               (isOwner
-                ? '<button type="button" onclick="deleteDesign(\'' + d.id + '\')" class="absolute right-2.5 top-2.5 h-9 rounded-lg bg-white/95 px-2.5 text-xs font-semibold text-red-700 shadow">Delete</button>'
+                ? '<div class="absolute right-2.5 top-2.5 flex gap-1.5"><button type="button" onclick="startEditBag(\'' + d.id + '\')" class="h-9 rounded-lg bg-white/95 px-2.5 text-xs font-semibold text-[#111113] shadow">Edit</button><button type="button" onclick="deleteDesign(\'' + d.id + '\')" class="h-9 rounded-lg bg-white/95 px-2.5 text-xs font-semibold text-red-700 shadow">Delete</button></div>'
                 : '<button type="button" onclick="toggleSave(\'' + d.id + '\')" class="absolute right-2.5 top-2.5 flex h-9 w-9 items-center justify-center rounded-lg shadow ' + (isSaved ? 'bg-[#066E45] text-white' : 'bg-white/90 text-[#111113]') + '">★</button>') +
             '</div>' +
             '<p class="mt-3 text-xs text-[#52525B]">' + d.category + ' · ' + d.finish + '</p>' +
@@ -367,12 +440,30 @@
           '</div>' +
         '</article>';
       }).join('');
+
+      if (isOwner) renderManageList();
+    }
+
+    function renderManageList() {
+      const box = document.getElementById('st-panel-manage');
+      box.innerHTML = designsState.map(d =>
+        '<div class="flex items-center justify-between gap-3 rounded-xl border border-black/10 bg-[#F7F7F5] p-3">' +
+          '<div class="flex min-w-0 items-center gap-3">' +
+            '<img src="' + getImageSrc(d) + '" class="h-12 w-14 shrink-0 rounded-lg object-cover bg-white" />' +
+            '<div class="min-w-0"><p class="truncate text-sm font-semibold">' + d.title + '</p><p class="truncate text-xs text-[#52525B]">' + d.category + '</p></div>' +
+          '</div>' +
+          '<div class="flex gap-1.5 shrink-0">' +
+            '<button type="button" onclick="startEditBag(\'' + d.id + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium">Edit</button>' +
+            '<button type="button" onclick="deleteDesign(\'' + d.id + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium text-red-700">Delete</button>' +
+          '</div>' +
+        '</div>'
+      ).join('');
     }
 
     function setCat(cat) { activeCategory = cat; render(); }
 
     function openLightbox(id) {
-      const d = getDesigns().find(x => x.id === id);
+      const d = designsState.find(x => x.id === id);
       if (!d) return;
       document.getElementById('lightbox-body').innerHTML =
         '<img src="' + getImageSrc(d) + '" class="aspect-[4/3] w-full object-cover bg-[#EFEFED]" />' +
@@ -387,7 +478,7 @@
     }
     function closeLightbox() { const m = document.getElementById('lightbox-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
 
-    function openAccountModal() {
+    function openAccountModal(targetTab) {
       const user = getSession();
       const modal = document.getElementById('account-modal');
       document.getElementById('auth-view').classList.toggle('hidden', !!user);
@@ -396,9 +487,22 @@
       document.getElementById('member-view').classList.toggle('hidden', !(user && user.role === 'member'));
       document.getElementById('modal-title').textContent = !user ? (authMode === 'login' ? 'Sign In' : 'Create Account') : (user.role === 'admin' ? 'Studio Workspace' : 'Welcome, ' + user.name);
       if (user && user.role === 'member') renderSaved();
+      if (user && user.role === 'admin') {
+        setStudioTab(targetTab || 'upload');
+      }
       modal.classList.remove('hidden'); modal.classList.add('flex');
     }
     function closeAccountModal() { const m = document.getElementById('account-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+
+    function setStudioTab(tab) {
+      studioTab = tab;
+      document.getElementById('st-panel-upload').classList.toggle('hidden', tab !== 'upload');
+      document.getElementById('st-panel-manage').classList.toggle('hidden', tab !== 'manage');
+      document.getElementById('st-panel-site').classList.toggle('hidden', tab !== 'site');
+      ['upload', 'manage', 'site'].forEach(t => {
+        document.getElementById('st-tab-' + t).className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (t === tab ? 'bg-white text-[#111113] shadow-sm' : 'text-[#52525B]');
+      });
+    }
 
     function setAuthMode(mode) {
       authMode = mode;
@@ -417,7 +521,7 @@
 
       if (authMode === 'login' && email === 'dilanmax2' && pass === 'sasindumax') {
         setSession({ name: 'DilanMax', email: 'dilanmax2', role: 'admin', saved: [] });
-        openAccountModal(); render(); return;
+        openAccountModal('upload'); render(); return;
       }
       const users = getUsers();
       if (authMode === 'register') {
@@ -436,7 +540,7 @@
       setSession(match); openAccountModal(); render();
     }
 
-    function logout() { setSession(null); openAccountModal(); render(); }
+    function logout() { setSession(null); closeAccountModal(); render(); }
 
     function toggleSave(id) {
       const user = getSession();
@@ -451,51 +555,159 @@
 
     function renderSaved() {
       const user = getSession();
-      const designs = getDesigns();
-      const items = designs.filter(d => (user.saved || []).includes(d.id));
+      const items = designsState.filter(d => (user.saved || []).includes(d.id));
       document.getElementById('saved-list').innerHTML = items.length
         ? items.map(d => '<div class="flex items-center justify-between gap-2 rounded-xl border border-black/10 p-3"><span class="text-sm font-semibold">' + d.title + '</span><a href="' + (d.fiverrUrl || FIVERR_URL) + '" target="_blank" class="rounded-lg bg-[#066E45] px-3 py-1.5 text-xs font-semibold text-white">Order Fiverr ↗</a></div>').join('')
         : '<p class="text-xs text-[#52525B]">Tap ★ on any bag card to save it here.</p>';
     }
 
-    function handleFilePick(e) {
+    async function handleFilesPick(e) {
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        if (!file.type.startsWith('image/')) continue;
+        const dataUrl = await fileToDataUrl(file);
+        const cleanTitle = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+        pendingImages.push({ dataUrl, defaultTitle: cleanTitle });
+      }
+      renderPendingPreviews();
+    }
+
+    function renderPendingPreviews() {
+      const box = document.getElementById('upload-preview-list');
+      box.innerHTML = pendingImages.map((item, idx) =>
+        '<div class="relative overflow-hidden rounded-lg border border-black/10 bg-white"><img src="' + item.dataUrl + '" class="aspect-[4/3] w-full object-cover" /><button type="button" onclick="removePending(' + idx + ')" class="absolute right-1 top-1 h-5 w-5 rounded-full bg-black/70 text-[10px] text-white">✕</button></div>'
+      ).join('');
+    }
+    function removePending(idx) { pendingImages.splice(idx, 1); renderPendingPreviews(); }
+
+    function startEditBag(id) {
+      const d = designsState.find(x => x.id === id);
+      if (!d) return;
+      editingBagId = id;
+      pendingImages = [];
+      renderPendingPreviews();
+      document.getElementById('bag-title').value = d.title;
+      document.getElementById('bag-cat').value = d.category;
+      document.getElementById('bag-finish').value = d.finish;
+      document.getElementById('bag-dims').value = d.dimensions;
+      document.getElementById('bag-url').value = d.imageUrl || '';
+      document.getElementById('bag-fiverr').value = d.fiverrUrl || FIVERR_URL;
+      document.getElementById('publish-btn').textContent = 'Save Changes';
+      document.getElementById('cancel-edit-btn').classList.remove('hidden');
+      openAccountModal('upload');
+    }
+
+    function cancelEditBag() {
+      editingBagId = null;
+      pendingImages = [];
+      renderPendingPreviews();
+      document.getElementById('st-panel-upload').reset();
+      document.getElementById('publish-btn').textContent = 'Publish Mylar Bag(s)';
+      document.getElementById('cancel-edit-btn').classList.add('hidden');
+    }
+
+    async function handleUploadBags(e) {
+      e.preventDefault();
+      const baseTitle = document.getElementById('bag-title').value.trim();
+      const urlVal = document.getElementById('bag-url').value.trim();
+      const cat = document.getElementById('bag-cat').value;
+      const finish = document.getElementById('bag-finish').value.trim() || 'Matte + Foil';
+      const dims = document.getElementById('bag-dims').value.trim() || '4.0" × 5.2" · 3.5g Stand-Up';
+      const fiverrUrl = document.getElementById('bag-fiverr').value.trim() || FIVERR_URL;
+
+      if (editingBagId) {
+        const idx = designsState.findIndex(x => x.id === editingBagId);
+        if (idx !== -1) {
+          designsState[idx] = {
+            ...designsState[idx],
+            title: baseTitle || designsState[idx].title,
+            category: cat,
+            finish,
+            dimensions: dims,
+            fiverrUrl,
+            imageUrl: pendingImages[0]?.dataUrl || urlVal || designsState[idx].imageUrl,
+          };
+          await idbSet('designs', designsState);
+        }
+        cancelEditBag();
+        render();
+        closeAccountModal();
+        return;
+      }
+
+      if (pendingImages.length === 0 && !urlVal) return;
+
+      if (pendingImages.length > 0) {
+        const created = pendingImages.map((img, i) => ({
+          id: 'bag_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 6),
+          title: baseTitle
+            ? (pendingImages.length > 1 ? baseTitle + ' #' + (i + 1) : baseTitle)
+            : (img.defaultTitle || 'Custom Mylar Bag #' + (i + 1)),
+          category: cat,
+          finish,
+          dimensions: dims,
+          description: 'Custom print-ready Mylar bag design.',
+          imageUrl: img.dataUrl,
+          fiverrUrl,
+        }));
+        designsState = [...created, ...designsState];
+      } else {
+        designsState.unshift({
+          id: 'bag_' + Date.now(),
+          title: baseTitle || 'Custom Mylar Bag',
+          category: cat,
+          finish,
+          dimensions: dims,
+          description: 'Custom print-ready Mylar bag design.',
+          imageUrl: urlVal,
+          fiverrUrl,
+        });
+      }
+
+      await idbSet('designs', designsState);
+      pendingImages = [];
+      renderPendingPreviews();
+      e.target.reset();
+      const st = document.getElementById('upload-status');
+      st.textContent = 'Published! You can upload more bags anytime.';
+      st.classList.remove('hidden');
+      setTimeout(() => st.classList.add('hidden'), 2500);
+      render();
+    }
+
+    async function deleteDesign(id) {
+      designsState = designsState.filter(d => d.id !== id);
+      await idbSet('designs', designsState);
+      render();
+    }
+
+    async function handleHeroFilePick(e) {
       const f = e.target.files[0];
       if (!f) return;
-      const r = new FileReader();
-      r.onload = () => { uploadedDataUri = r.result; };
-      r.readAsDataURL(f);
-    }
-
-    function handleUploadBag(e) {
-      e.preventDefault();
-      const title = document.getElementById('bag-title').value.trim();
-      const url = document.getElementById('bag-url').value.trim();
-      const img = uploadedDataUri || url;
-      if (!title || !img) return;
-      const list = getDesigns();
-      list.unshift({
-        id: 'bag_' + Date.now(),
-        title,
-        category: document.getElementById('bag-cat').value,
-        finish: document.getElementById('bag-finish').value.trim() || 'Matte + Foil',
-        dimensions: document.getElementById('bag-dims').value.trim() || '4.0" × 5.2"',
-        description: 'Custom print-ready Mylar bag design.',
-        imageUrl: img,
-        fiverrUrl: document.getElementById('bag-fiverr').value.trim() || FIVERR_URL,
-      });
-      saveDesigns(list);
-      uploadedDataUri = '';
-      e.target.reset();
+      heroImageState = await fileToDataUrl(f);
+      await idbSet('heroImage', heroImageState);
+      render();
       closeAccountModal();
+    }
+
+    async function resetHeroImage() {
+      heroImageState = '';
+      await idbSet('heroImage', '');
       render();
     }
 
-    function deleteDesign(id) {
-      saveDesigns(getDesigns().filter(d => d.id !== id));
+    async function init() {
+      try {
+        const savedDesigns = await idbGet('designs');
+        designsState = Array.isArray(savedDesigns) ? savedDesigns : INITIAL_DESIGNS;
+        const savedHero = await idbGet('heroImage');
+        if (typeof savedHero === 'string') heroImageState = savedHero;
+      } catch {
+        designsState = INITIAL_DESIGNS;
+      }
       render();
     }
-
-    render();
+    init();
   </script>
 </body>
 </html>
