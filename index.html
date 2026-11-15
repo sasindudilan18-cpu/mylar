@@ -152,20 +152,18 @@
     </div>
   </footer>
 
-  <!-- Floating Upload Bar (Visible only when owner is logged in) -->
   <div id="owner-float-bar" class="fixed bottom-4 right-4 z-40 hidden items-center gap-1.5 rounded-xl bg-[#111113] p-1.5 text-white shadow-lg">
     <button type="button" onclick="openAccountModal('upload')" class="inline-flex h-10 items-center gap-1.5 rounded-lg bg-[#0B8A57] px-3.5 text-xs font-semibold text-white hover:bg-[#097549]">+ Upload Bags</button>
     <button type="button" onclick="openAccountModal('site')" class="inline-flex h-10 items-center rounded-lg px-3 text-xs font-medium text-white/90 hover:bg-white/10">Site Images</button>
     <button type="button" onclick="logout()" class="inline-flex h-10 items-center rounded-lg px-2.5 text-xs font-medium text-white/75 hover:bg-white/10">Sign Out</button>
   </div>
 
-  <!-- Account / Unlimited Upload Modal -->
   <div id="account-modal" class="fixed inset-0 z-50 hidden items-end justify-center bg-black/65 p-0 sm:items-center sm:p-4" onclick="closeAccountModal()">
     <div class="max-h-[92dvh] w-full max-w-2xl overflow-y-auto rounded-t-2xl bg-white p-5 shadow-2xl sm:rounded-2xl sm:p-8" onclick="event.stopPropagation()">
       <div class="flex items-center justify-between border-b border-black/10 pb-4">
         <div>
           <h2 id="modal-title" class="font-display text-lg font-bold text-[#111113]">Sign In</h2>
-          <p id="modal-subtitle" class="text-xs text-[#52525B]">Sign in or create an account.</p>
+          <p id="modal-subtitle" class="text-xs text-[#52525B]">Sign in with Google to save your favorite Mylar bag designs.</p>
         </div>
         <div class="flex items-center gap-2">
           <button id="signout-btn" type="button" onclick="logout()" class="hidden h-9 rounded-lg border border-black/10 px-3 text-xs font-medium text-[#4B4B52] hover:bg-[#EFEFED]">Sign Out</button>
@@ -173,27 +171,13 @@
         </div>
       </div>
 
-      <div id="auth-view" class="mt-5">
-        <div class="flex gap-1 rounded-xl bg-[#EAEAE6] p-1">
-          <button id="tab-login" type="button" onclick="setAuthMode('login')" class="flex-1 rounded-lg bg-white px-3 py-2 text-xs font-semibold text-[#111113]">Sign In</button>
-          <button id="tab-register" type="button" onclick="setAuthMode('register')" class="flex-1 rounded-lg px-3 py-2 text-xs font-semibold text-[#52525B]">Create Account</button>
+      <div id="auth-view" class="mt-5 space-y-4">
+        <div class="rounded-xl border border-black/10 bg-[#F7F7F5] p-5 text-center">
+          <p class="text-sm font-medium text-[#111113]">Access your saved Mylar bag shortlist</p>
+          <p class="mt-1 text-xs text-[#52525B]">One-click sign in with Google. Bookmark designs and order anytime on Fiverr.</p>
+          <button id="google-signin-btn" type="button" onclick="handleGoogleSignIn()" class="mt-4 h-12 w-full rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Continue with Google</button>
         </div>
-        <form onsubmit="handleAuth(event)" class="mt-4 space-y-3.5">
-          <div id="name-wrap" class="hidden">
-            <label class="block text-xs font-medium">Your Name</label>
-            <input id="auth-name" type="text" placeholder="Enter your name" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium">Email</label>
-            <input id="auth-email" type="text" required placeholder="Enter email" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
-          </div>
-          <div>
-            <label class="block text-xs font-medium">Password</label>
-            <input id="auth-pass" type="password" required placeholder="Enter password" class="mt-1 h-11 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
-          </div>
-          <p id="auth-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700"></p>
-          <button id="auth-submit-btn" type="submit" class="h-11 w-full rounded-xl bg-[#066E45] text-sm font-semibold text-white hover:bg-[#055837]">Sign In</button>
-        </form>
+        <p id="auth-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700"></p>
       </div>
 
       <div id="member-view" class="mt-5 hidden space-y-3">
@@ -210,11 +194,11 @@
 
         <form id="st-panel-upload" onsubmit="handleUploadBags(event)" class="space-y-3.5" novalidate>
           <div>
-            <label class="block text-xs font-medium text-[#111113]">Select 1 or Multiple Bag Images (Unlimited)</label>
+            <label class="block text-xs font-medium text-[#111113]">Select 1 or Multiple Bag Images (Synced to Cloud)</label>
             <label class="mt-1.5 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-black/25 bg-[#F7F7F5] p-4 text-center hover:border-black/40">
               <input id="bag-files" type="file" multiple accept="image/*,.png,.jpg,.jpeg,.webp,.gif" onchange="handleFilesPick(event)" class="sr-only" />
               <span class="text-xs font-semibold text-[#111113]">Tap to choose 1 or many bag images</span>
-              <span class="mt-0.5 text-[11px] text-[#52525B]">Unlimited uploads supported</span>
+              <span class="mt-0.5 text-[11px] text-[#52525B]">Saved to Firebase Firestore · Visible to everyone</span>
             </label>
             <div id="upload-preview-list" class="mt-2.5 grid grid-cols-3 gap-2 sm:grid-cols-4"></div>
             <input id="bag-url" type="url" placeholder="Or paste an image URL (optional)" class="mt-2 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-xs" />
@@ -222,7 +206,7 @@
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label class="block text-xs font-medium">Bag Title (or leave blank to auto-name)</label>
-              <input id="bag-title" type="text" placeholder="e.g. Mango Haze 3.5g" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+              <input id="bag-title" type="text" maxlength="160" placeholder="e.g. Mango Haze 3.5g" class="mt-1 h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
             </div>
             <div>
               <label class="block text-xs font-medium">Category</label>
@@ -235,10 +219,10 @@
             </div>
           </div>
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <input id="bag-finish" type="text" value="Matte Soft-Touch + Foil" placeholder="Finish" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
-            <input id="bag-dims" type="text" value='4.0" × 5.2" · 3.5g Stand-Up' placeholder="Dimensions" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+            <input id="bag-finish" type="text" maxlength="160" value="Matte Soft-Touch + Foil" placeholder="Finish" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
+            <input id="bag-dims" type="text" maxlength="160" value='4.0" × 5.2" · 3.5g Stand-Up' placeholder="Dimensions" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 text-sm" />
           </div>
-          <input id="bag-fiverr" type="url" value="https://www.fiverr.com/s/bk0w0Xq" placeholder="Fiverr Link" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 font-mono text-xs" />
+          <input id="bag-fiverr" type="url" maxlength="500" value="https://www.fiverr.com/s/bk0w0Xq" placeholder="Fiverr Link" class="h-10 w-full rounded-xl border border-black/15 bg-[#F7F7F5] px-3 font-mono text-xs" />
           <p id="upload-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700"></p>
           <p id="upload-status" class="hidden rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800"></p>
           <div class="flex gap-2">
@@ -252,12 +236,13 @@
         <div id="st-panel-site" class="hidden space-y-4">
           <div>
             <p class="text-xs font-semibold text-[#111113]">Hero Showcase Image</p>
-            <p class="mt-0.5 text-xs text-[#52525B]">Upload any custom photo for the main top banner of the website.</p>
+            <p class="mt-0.5 text-xs text-[#52525B]">Upload a custom banner image to Firebase Cloud for the main top section.</p>
             <label class="mt-2 flex cursor-pointer flex-col items-center justify-center rounded-xl border border-dashed border-black/25 bg-[#F7F7F5] p-5 text-center hover:border-black/40">
               <input type="file" accept="image/*,.png,.jpg,.jpeg,.webp,.gif" onchange="handleHeroFilePick(event)" class="sr-only" />
               <span class="text-xs font-semibold text-[#111113]">Tap to Upload New Hero Image</span>
             </label>
           </div>
+          <p id="hero-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs font-medium text-red-700"></p>
           <p id="hero-status" class="hidden rounded-lg bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800"></p>
           <button type="button" onclick="resetHeroImage()" class="h-10 rounded-xl border border-black/15 px-4 text-xs font-medium text-[#4B4B52] hover:bg-[#EFEFED]">Reset Hero to Default</button>
         </div>
@@ -272,161 +257,145 @@
     </div>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js';
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js';
+    import {
+      getFirestore,
+      collection,
+      doc,
+      getDoc,
+      getDocFromServer,
+      setDoc,
+      updateDoc,
+      deleteDoc,
+      onSnapshot,
+      query,
+      orderBy,
+      serverTimestamp
+    } from 'https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js';
+
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyBBTz_iOqLrW6c70I0Gn8qUHgyuxr6ItaA",
+      authDomain: "gen-lang-client-0590496973.firebaseapp.com",
+      projectId: "gen-lang-client-0590496973",
+      storageBucket: "gen-lang-client-0590496973.firebasestorage.app",
+      messagingSenderId: "1066059310405",
+      appId: "1:1066059310405:web:206a955f72d34365154a2c",
+      firestoreDatabaseId: "ai-studio-dilanmaxpackagin-2c9d9832-f00f-45c7-bc00-9cec94fdf865"
+    };
+    const ADMIN_EMAIL = 'sasindudilan18@gmail.com';
     const FIVERR_URL = "https://www.fiverr.com/s/bk0w0Xq";
     const CATEGORIES = ['All', '3.5g Stand-Up', 'Die-Cut Shape', 'Holographic Foil', 'Matte & Spot UV'];
-    const INITIAL_DESIGNS = [
-      {
-        id: 'mylar-berry-fusion',
-        title: 'Aroma Botanica — Berry Fusion',
-        category: 'Holographic Foil',
-        finish: 'Matte Soft-Touch + Iridescent Foil',
-        dimensions: '4.0" × 5.2" · 3.5g Stand-Up',
-        description: 'Deep indigo matte pouch engineered with rainbow holographic botanical linework and tear-notch header.',
-        presetKey: 'preset:cosmic-berry',
-        fiverrUrl: FIVERR_URL
-      },
-      {
-        id: 'mylar-emerald-prism',
-        title: 'Emerald Prism — Custom Die-Cut',
-        category: 'Die-Cut Shape',
-        finish: 'Custom Contour Die-Cut + Prism Foil',
-        dimensions: '4.7" × 6.0" · Custom Silhouette',
-        description: 'Precision contour die-cut Mylar pouch featuring metallic prism highlights and front clear window.',
-        presetKey: 'preset:diecut-emerald',
-        fiverrUrl: FIVERR_URL
-      },
-      {
-        id: 'mylar-volcanica-obsidian',
-        title: 'Volcanica — Obsidian Gold Crest',
-        category: 'Matte & Spot UV',
-        finish: 'Obsidian Matte + Embossed Gold Foil',
-        dimensions: '5.5" × 8.5" · Box-Bottom Pouch',
-        description: 'Architectural dark matte packaging featuring hot-stamped gold emblem work and heavy-barrier seal.',
-        presetKey: 'preset:obsidian-gold',
-        fiverrUrl: FIVERR_URL
-      },
-      {
-        id: 'mylar-citrus-squeeze',
-        title: 'Citrus Squeeze — Brushed Chrome',
-        category: '3.5g Stand-Up',
-        finish: 'Brushed Metallic Film + Spot Gloss UV',
-        dimensions: '5.0" × 7.5" · Stand-Up Zip',
-        description: 'High-visibility retail stand-up pouch pairing raw brushed aluminum with vibrant citrus blocking.',
-        presetKey: 'preset:chrome-lemon',
-        fiverrUrl: FIVERR_URL
-      }
+    const STARTER_DESIGNS = [
+      { id: 'mylar-berry-fusion', title: 'Aroma Botanica — Berry Fusion', category: 'Holographic Foil', finish: 'Matte Soft-Touch + Iridescent Foil', dimensions: '4.0" × 5.2" · 3.5g Stand-Up', description: 'Deep indigo matte pouch engineered with rainbow holographic botanical linework and tear-notch header.', imageUrl: '', presetKey: 'preset:cosmic-berry', fiverrUrl: FIVERR_URL },
+      { id: 'mylar-emerald-prism', title: 'Emerald Prism — Custom Die-Cut', category: 'Die-Cut Shape', finish: 'Custom Contour Die-Cut + Prism Foil', dimensions: '4.7" × 6.0" · Custom Silhouette', description: 'Precision contour die-cut Mylar pouch featuring metallic prism highlights and front clear window.', imageUrl: '', presetKey: 'preset:diecut-emerald', fiverrUrl: FIVERR_URL },
+      { id: 'mylar-volcanica-obsidian', title: 'Volcanica — Obsidian Gold Crest', category: 'Matte & Spot UV', finish: 'Obsidian Matte + Embossed Gold Foil', dimensions: '5.5" × 8.5" · Box-Bottom Pouch', description: 'Architectural dark matte packaging featuring hot-stamped gold emblem work and heavy-barrier seal.', imageUrl: '', presetKey: 'preset:obsidian-gold', fiverrUrl: FIVERR_URL },
+      { id: 'mylar-citrus-squeeze', title: 'Citrus Squeeze — Brushed Chrome', category: '3.5g Stand-Up', finish: 'Brushed Metallic Film + Spot Gloss UV', dimensions: '5.0" × 7.5" · Stand-Up Zip', description: 'High-visibility retail stand-up pouch pairing raw brushed aluminum with vibrant citrus blocking.', imageUrl: '', presetKey: 'preset:chrome-lemon', fiverrUrl: FIVERR_URL }
     ];
 
-    let designsState = INITIAL_DESIGNS.slice();
+    const app = initializeApp(FIREBASE_CONFIG);
+    const db = getFirestore(app, FIREBASE_CONFIG.firestoreDatabaseId);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    let designsState = STARTER_DESIGNS.slice();
+    let heroDocExists = null;
     let heroImageState = '';
     let activeCategory = 'All';
-    let authMode = 'login';
     let studioTab = 'upload';
     let pendingImages = [];
     let editingBagId = null;
-
-    // Cloud Database API Configuration (Using JSONBin.io free public cloud bin)
-    const CLOUD_BIN_ID = '67389c93ad19ca34f8cf48c3'; 
-    const CLOUD_API_KEY = '$2a$10$T6i893b8uX7u8tNl5q6X5e1vX2b8v8x8v8x8v8x8v8x8v8x8v8x8v'; // Public free tier key
-
-    async function cloudGet() {
-      try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}/latest`, {
-          headers: { 'X-Master-Key': CLOUD_API_KEY }
-        });
-        if (!res.ok) throw new Error('Cloud fetch failed');
-        const data = await res.json();
-        return data.record;
-      } catch {
-        // Fallback to local storage if offline
-        try {
-          return {
-            designs: JSON.parse(localStorage.getItem('dm_fallback_designs') || 'null'),
-            heroImage: localStorage.getItem('dm_fallback_hero') || ''
-          };
-        } catch { return null; }
-      }
-    }
-
-    async function cloudSave(stateData) {
-      // Save locally first for instant feedback
-      try {
-        if (stateData.designs) localStorage.setItem('dm_fallback_designs', JSON.stringify(stateData.designs));
-        if (typeof stateData.heroImage === 'string') localStorage.setItem('dm_fallback_hero', stateData.heroImage);
-      } catch {}
-
-      // Sync to Cloud API
-      try {
-        await fetch(`https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Master-Key': CLOUD_API_KEY
-          },
-          body: JSON.stringify(stateData)
-        });
-      } catch (err) {
-        console.warn('Cloud sync error:', err);
-      }
-    }
+    let currentUser = null;
+    let savedIds = [];
+    let unsubSaved = null;
 
     function esc(s) {
       return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
-    function readAndOptimizeImage(file) {
+    function sanitizeId(raw) {
+      return String(raw || '').replace(/[^a-zA-Z0-9_\-]/g, '-').slice(0, 128) || ('id_' + Date.now());
+    }
+
+    function handleFirestoreError(error, operationType, path) {
+      const u = auth.currentUser;
+      const errInfo = {
+        error: error && error.message ? error.message : String(error),
+        operationType,
+        path,
+        authInfo: {
+          userId: u ? u.uid : null,
+          email: u ? u.email : null,
+          emailVerified: u ? u.emailVerified : null
+        }
+      };
+      console.error('Firestore Error: ', JSON.stringify(errInfo));
+      throw new Error(JSON.stringify(errInfo));
+    }
+
+    async function testConnection() {
+      try {
+        await getDocFromServer(doc(db, 'test', 'connection'));
+      } catch (err) {
+        if (err && err.message && err.message.includes('the client is offline')) {
+          console.error('Please check your Firebase configuration.');
+        }
+      }
+    }
+    testConnection();
+
+    function optimizeImageForFirestore(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onerror = () => reject(new Error('Could not read file'));
         reader.onload = () => {
           const rawUrl = reader.result;
           if (typeof rawUrl !== 'string') return reject(new Error('Invalid image'));
-          if (file.size <= 600 * 1024) return resolve(rawUrl);
+          if (rawUrl.length <= 380000) return resolve(rawUrl);
           const img = new Image();
           img.onload = () => {
             try {
-              const maxDim = 1000;
-              let w = img.naturalWidth || 1000;
-              let h = img.naturalHeight || 750;
-              if (w > maxDim || h > maxDim) {
-                const ratio = Math.min(maxDim / w, maxDim / h);
-                w = Math.round(w * ratio);
-                h = Math.round(h * ratio);
+              const attempts = [
+                { maxDim: 1000, quality: 0.82 },
+                { maxDim: 820, quality: 0.74 },
+                { maxDim: 680, quality: 0.65 },
+                { maxDim: 520, quality: 0.58 }
+              ];
+              for (const attempt of attempts) {
+                let w = img.naturalWidth || 900;
+                let h = img.naturalHeight || 675;
+                if (w > attempt.maxDim || h > attempt.maxDim) {
+                  const ratio = Math.min(attempt.maxDim / w, attempt.maxDim / h);
+                  w = Math.max(1, Math.round(w * ratio));
+                  h = Math.max(1, Math.round(h * ratio));
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = w;
+                canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                if (!ctx) continue;
+                ctx.drawImage(img, 0, 0, w, h);
+                const out = canvas.toDataURL('image/jpeg', attempt.quality);
+                if (out.length <= 650000) return resolve(out);
               }
-              const canvas = document.createElement('canvas');
-              canvas.width = w;
-              canvas.height = h;
-              const ctx = canvas.getContext('2d');
-              if (!ctx) return resolve(rawUrl);
-              ctx.drawImage(img, 0, 0, w, h);
-              resolve(canvas.toDataURL('image/jpeg', 0.82));
+              reject(new Error('Image is too large even after compression. Use a smaller image or URL.'));
             } catch {
-              resolve(rawUrl);
+              reject(new Error('Failed to optimize image.'));
             }
           };
-          img.onerror = () => resolve(rawUrl);
+          img.onerror = () => reject(new Error('Invalid image file.'));
           img.src = rawUrl;
         };
         reader.readAsDataURL(file);
       });
     }
-
-    let memorySession = null;
-    function getSession() {
-      try {
-        const s = localStorage.getItem('dm_html_session');
-        return s ? JSON.parse(s) : memorySession;
-      } catch { return memorySession; }
-    }
-    function setSession(user) {
-      memorySession = user;
-      try {
-        if (user) localStorage.setItem('dm_html_session', JSON.stringify(user));
-        else localStorage.removeItem('dm_html_session');
-      } catch {}
-    }
-    function getUsers() { try { return JSON.parse(localStorage.getItem('dm_html_users') || '[]'); } catch { return []; } }
 
     function presetSvg(title, color1, color2) {
       const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"><rect width="400" height="300" fill="#EFEFED"/><rect x="125" y="28" width="150" height="244" rx="16" fill="' + color1 + '"/><line x1="125" y1="62" x2="275" y2="62" stroke="#ffffff44" stroke-width="2"/><circle cx="200" cy="138" r="36" fill="' + color2 + '"/><text x="200" y="218" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">' + String(title).slice(0, 18) + '</text></svg>';
@@ -434,17 +403,17 @@
     }
 
     function getImageSrc(d) {
-      if (d.imageUrl) return d.imageUrl;
-      if (d.presetKey === 'preset:diecut-emerald') return presetSvg(d.title, '#065f46', '#34d399');
-      if (d.presetKey === 'preset:obsidian-gold') return presetSvg(d.title, '#18181b', '#f59e0b');
-      if (d.presetKey === 'preset:chrome-lemon') return presetSvg(d.title, '#374151', '#facc15');
+      if (d.imageUrl && !String(d.imageUrl).startsWith('preset:')) return d.imageUrl;
+      const pk = d.presetKey || d.imageUrl;
+      if (pk === 'preset:diecut-emerald') return presetSvg(d.title, '#065f46', '#34d399');
+      if (pk === 'preset:obsidian-gold') return presetSvg(d.title, '#18181b', '#f59e0b');
+      if (pk === 'preset:chrome-lemon') return presetSvg(d.title, '#374151', '#facc15');
       return presetSvg(d.title, '#1e1b4b', '#38bdf8');
     }
 
     function renderHero() {
       const box = document.getElementById('hero-media-box');
-      const user = getSession();
-      const isOwner = user && user.role === 'admin';
+      const isOwner = currentUser && currentUser.role === 'admin';
       const editBtn = isOwner
         ? '<button type="button" onclick="openAccountModal(\'site\')" class="absolute right-3 top-3 z-10 inline-flex h-10 items-center rounded-xl bg-white/95 px-3 text-xs font-semibold text-[#111113] shadow">Change Hero Image</button>'
         : '';
@@ -456,11 +425,33 @@
       }
     }
 
+    function renderManageList() {
+      const box = document.getElementById('st-panel-manage');
+      box.innerHTML = designsState.map(d =>
+        '<div class="flex items-center justify-between gap-3 rounded-xl border border-black/10 bg-[#F7F7F5] p-3">' +
+          '<div class="flex min-w-0 items-center gap-3">' +
+            '<img src="' + getImageSrc(d) + '" class="h-12 w-14 shrink-0 rounded-lg object-cover bg-white" />' +
+            '<div class="min-w-0"><p class="truncate text-sm font-semibold">' + esc(d.title) + '</p><p class="truncate text-xs text-[#52525B]">' + esc(d.category) + '</p></div>' +
+          '</div>' +
+          '<div class="flex gap-1.5 shrink-0">' +
+            '<button type="button" onclick="startEditBag(\'' + esc(d.id) + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium">Edit</button>' +
+            '<button type="button" onclick="deleteDesign(\'' + esc(d.id) + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium text-red-700">Delete</button>' +
+          '</div>' +
+        '</div>'
+      ).join('');
+    }
+
+    function renderSaved() {
+      const items = designsState.filter(d => savedIds.includes(d.id));
+      document.getElementById('saved-list').innerHTML = items.length
+        ? items.map(d => '<div class="flex items-center justify-between gap-2 rounded-xl border border-black/10 p-3"><span class="text-sm font-semibold">' + esc(d.title) + '</span><a href="' + esc(d.fiverrUrl || FIVERR_URL) + '" target="_blank" rel="noopener noreferrer" class="rounded-lg bg-[#066E45] px-3 py-1.5 text-xs font-semibold text-white">Order Fiverr ↗</a></div>').join('')
+        : '<p class="text-xs text-[#52525B]">Tap ★ on any bag card to save it here.</p>';
+    }
+
     function render() {
-      const user = getSession();
-      const isOwner = user && user.role === 'admin';
+      const isOwner = currentUser && currentUser.role === 'admin';
       document.getElementById('stat-count').textContent = Math.max(designsState.length, 4) + '+';
-      document.getElementById('header-account-label').textContent = user ? user.name : 'Login';
+      document.getElementById('header-account-label').textContent = currentUser ? currentUser.name : 'Login';
       const floatBar = document.getElementById('owner-float-bar');
       floatBar.classList.toggle('hidden', !isOwner);
       floatBar.classList.toggle('flex', !!isOwner);
@@ -477,7 +468,7 @@
       const grid = document.getElementById('designs-grid');
       grid.innerHTML = list.map(d => {
         const src = getImageSrc(d);
-        const isSaved = user && Array.isArray(user.saved) && user.saved.includes(d.id);
+        const isSaved = savedIds.includes(d.id);
         return '<article class="flex flex-col justify-between rounded-2xl border border-black/10 bg-white p-4">' +
           '<div>' +
             '<div class="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[#EFEFED]">' +
@@ -497,27 +488,109 @@
       }).join('');
 
       if (isOwner) renderManageList();
+      if (currentUser && currentUser.role === 'member') renderSaved();
     }
 
-    function renderManageList() {
-      const box = document.getElementById('st-panel-manage');
-      box.innerHTML = designsState.map(d =>
-        '<div class="flex items-center justify-between gap-3 rounded-xl border border-black/10 bg-[#F7F7F5] p-3">' +
-          '<div class="flex min-w-0 items-center gap-3">' +
-            '<img src="' + getImageSrc(d) + '" class="h-12 w-14 shrink-0 rounded-lg object-cover bg-white" />' +
-            '<div class="min-w-0"><p class="truncate text-sm font-semibold">' + esc(d.title) + '</p><p class="truncate text-xs text-[#52525B]">' + esc(d.category) + '</p></div>' +
-          '</div>' +
-          '<div class="flex gap-1.5 shrink-0">' +
-            '<button type="button" onclick="startEditBag(\'' + esc(d.id) + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium">Edit</button>' +
-            '<button type="button" onclick="deleteDesign(\'' + esc(d.id) + '\')" class="h-9 rounded-lg border border-black/10 bg-white px-2.5 text-xs font-medium text-red-700">Delete</button>' +
-          '</div>' +
-        '</div>'
-      ).join('');
+    function syncModalState(targetTab) {
+      document.getElementById('auth-view').classList.toggle('hidden', !!currentUser);
+      document.getElementById('signout-btn').classList.toggle('hidden', !currentUser);
+      document.getElementById('studio-view').classList.toggle('hidden', !(currentUser && currentUser.role === 'admin'));
+      document.getElementById('member-view').classList.toggle('hidden', !(currentUser && currentUser.role === 'member'));
+      document.getElementById('modal-title').textContent = !currentUser ? 'Sign In' : (currentUser.role === 'admin' ? 'Studio Workspace' : 'Welcome, ' + currentUser.name);
+      document.getElementById('modal-subtitle').textContent = !currentUser
+        ? 'Sign in with Google to save your favorite Mylar bag designs.'
+        : (currentUser.role === 'admin' ? 'Upload unlimited Mylar bags directly to Firebase Cloud.' : currentUser.email);
+      if (currentUser && currentUser.role === 'admin') {
+        window.setStudioTab(targetTab || studioTab || 'upload');
+      }
     }
 
-    function setCat(cat) { activeCategory = cat; render(); }
+    onSnapshot(query(collection(db, 'designs'), orderBy('createdAt', 'desc')), (snap) => {
+      const list = snap.docs.map(s => {
+        const d = s.data();
+        return {
+          id: d.id || s.id,
+          title: d.title || 'Custom Mylar Bag',
+          category: d.category || '3.5g Stand-Up',
+          finish: d.finish || 'Matte + Foil',
+          dimensions: d.dimensions || '4.0" × 5.2" · 3.5g Stand-Up',
+          description: d.description || '',
+          imageUrl: d.imageUrl || '',
+          fiverrUrl: d.fiverrUrl || FIVERR_URL
+        };
+      });
+      if (list.length > 0 || heroDocExists === true) {
+        designsState = list;
+      } else {
+        designsState = STARTER_DESIGNS.slice();
+      }
+      render();
+    }, (err) => {
+      console.error(err);
+    });
 
-    function openLightbox(id) {
+    onSnapshot(doc(db, 'siteSettings', 'hero'), (snap) => {
+      heroDocExists = snap.exists();
+      if (snap.exists() && typeof snap.data().heroImageUrl === 'string') {
+        heroImageState = snap.data().heroImageUrl;
+      } else {
+        heroImageState = '';
+      }
+      render();
+    });
+
+    onAuthStateChanged(auth, async (fbUser) => {
+      if (unsubSaved) { unsubSaved(); unsubSaved = null; }
+      if (!fbUser) {
+        currentUser = null;
+        savedIds = [];
+        syncModalState();
+        render();
+        return;
+      }
+
+      let isOwner = fbUser.email && fbUser.email.toLowerCase() === ADMIN_EMAIL && fbUser.emailVerified;
+      if (!isOwner) {
+        try {
+          const adm = await getDoc(doc(db, 'admins', fbUser.uid));
+          if (adm.exists()) isOwner = true;
+        } catch {}
+      }
+
+      const name = (fbUser.displayName || (fbUser.email ? fbUser.email.split('@')[0] : 'Guest')).slice(0, 120);
+      currentUser = {
+        id: fbUser.uid,
+        name,
+        email: fbUser.email || '',
+        role: isOwner ? 'admin' : 'member'
+      };
+
+      try {
+        const uRef = doc(db, 'users', fbUser.uid);
+        const uSnap = await getDoc(uRef);
+        if (!uSnap.exists() && fbUser.emailVerified) {
+          await setDoc(uRef, {
+            uid: fbUser.uid,
+            displayName: name || 'User',
+            role: 'member',
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch {}
+
+      unsubSaved = onSnapshot(collection(db, 'users', fbUser.uid, 'saved'), (snap) => {
+        savedIds = snap.docs.map(d => d.id);
+        render();
+      });
+
+      syncModalState();
+      render();
+    });
+
+    window.setCat = (cat) => { activeCategory = cat; render(); };
+
+    window.openLightbox = (id) => {
       const d = designsState.find(x => x.id === id);
       if (!d) return;
       document.getElementById('lightbox-body').innerHTML =
@@ -530,26 +603,17 @@
         '</div>';
       const m = document.getElementById('lightbox-modal');
       m.classList.remove('hidden'); m.classList.add('flex');
-    }
-    function closeLightbox() { const m = document.getElementById('lightbox-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+    };
+    window.closeLightbox = () => { const m = document.getElementById('lightbox-modal'); m.classList.add('hidden'); m.classList.remove('flex'); };
 
-    function openAccountModal(targetTab) {
-      const user = getSession();
-      const modal = document.getElementById('account-modal');
-      document.getElementById('auth-view').classList.toggle('hidden', !!user);
-      document.getElementById('signout-btn').classList.toggle('hidden', !user);
-      document.getElementById('studio-view').classList.toggle('hidden', !(user && user.role === 'admin'));
-      document.getElementById('member-view').classList.toggle('hidden', !(user && user.role === 'member'));
-      document.getElementById('modal-title').textContent = !user ? (authMode === 'login' ? 'Sign In' : 'Create Account') : (user.role === 'admin' ? 'Studio Workspace' : 'Welcome, ' + user.name);
-      if (user && user.role === 'member') renderSaved();
-      if (user && user.role === 'admin') {
-        setStudioTab(targetTab || 'upload');
-      }
-      modal.classList.remove('hidden'); modal.classList.add('flex');
-    }
-    function closeAccountModal() { const m = document.getElementById('account-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
+    window.openAccountModal = (targetTab) => {
+      syncModalState(targetTab);
+      const m = document.getElementById('account-modal');
+      m.classList.remove('hidden'); m.classList.add('flex');
+    };
+    window.closeAccountModal = () => { const m = document.getElementById('account-modal'); m.classList.add('hidden'); m.classList.remove('flex'); };
 
-    function setStudioTab(tab) {
+    window.setStudioTab = (tab) => {
       studioTab = tab;
       document.getElementById('st-panel-upload').classList.toggle('hidden', tab !== 'upload');
       document.getElementById('st-panel-manage').classList.toggle('hidden', tab !== 'manage');
@@ -557,81 +621,55 @@
       ['upload', 'manage', 'site'].forEach(t => {
         document.getElementById('st-tab-' + t).className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (t === tab ? 'bg-white text-[#111113] shadow-sm' : 'text-[#52525B]');
       });
-    }
+    };
 
-    function setAuthMode(mode) {
-      authMode = mode;
-      document.getElementById('name-wrap').classList.toggle('hidden', mode !== 'register');
-      document.getElementById('auth-submit-btn').textContent = mode === 'login' ? 'Sign In' : 'Create Account';
-      document.getElementById('tab-login').className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (mode === 'login' ? 'bg-white text-[#111113]' : 'text-[#52525B]');
-      document.getElementById('tab-register').className = 'flex-1 rounded-lg px-3 py-2 text-xs font-semibold ' + (mode === 'register' ? 'bg-white text-[#111113]' : 'text-[#52525B]');
-    }
-
-    function handleAuth(e) {
-      e.preventDefault();
-      const email = document.getElementById('auth-email').value.trim().toLowerCase();
-      const pass = document.getElementById('auth-pass').value;
+    window.handleGoogleSignIn = async () => {
       const err = document.getElementById('auth-error');
+      const btn = document.getElementById('google-signin-btn');
       err.classList.add('hidden');
-
-      if (authMode === 'login' && email === 'dilanmax2' && pass === 'sasindumax') {
-        setSession({ name: 'DilanMax', email: 'dilanmax2', role: 'admin', saved: [] });
-        openAccountModal('upload'); render(); return;
-      }
-      const users = getUsers();
-      if (authMode === 'register') {
-        const name = document.getElementById('auth-name').value.trim();
-        if (!name || email === 'dilanmax2' || users.some(u => u.email === email)) {
-          err.textContent = 'Invalid details or email already exists.'; err.classList.remove('hidden'); return;
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (e) {
+        const code = e && e.code ? String(e.code) : '';
+        if (code === 'auth/unauthorized-domain') {
+          err.textContent = 'Add "' + window.location.hostname + '" to Firebase Console > Authentication > Settings > Authorized domains.';
+        } else if (code === 'auth/popup-closed-by-user') {
+          err.textContent = 'Sign-in popup closed. Please try again.';
+        } else {
+          err.textContent = 'Sign-in failed. Please try again.';
         }
-        const newUser = { name, email, pass, role: 'member', saved: [] };
-        users.push(newUser);
-        try { localStorage.setItem('dm_html_users', JSON.stringify(users)); } catch {}
-        setSession(newUser);
-        openAccountModal(); render(); return;
+        err.classList.remove('hidden');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Continue with Google';
       }
-      const match = users.find(u => u.email === email && u.pass === pass);
-      if (!match) { err.textContent = 'Invalid email or password.'; err.classList.remove('hidden'); return; }
-      setSession(match); openAccountModal(); render();
-    }
+    };
 
-    function logout() { setSession(null); closeAccountModal(); render(); }
+    window.logout = async () => {
+      await signOut(auth);
+      window.closeAccountModal();
+    };
 
-    function toggleSave(id) {
-      const user = getSession();
-      if (!user) { openAccountModal(); return; }
-      const saved = Array.isArray(user.saved) ? user.saved : [];
-      user.saved = saved.includes(id) ? saved.filter(x => x !== id) : [...saved, id];
-      setSession(user);
-      const users = getUsers().map(u => u.email === user.email ? user : u);
-      try { localStorage.setItem('dm_html_users', JSON.stringify(users)); } catch {}
-      render();
-    }
-
-    function renderSaved() {
-      const user = getSession();
-      const items = designsState.filter(d => (user.saved || []).includes(d.id));
-      document.getElementById('saved-list').innerHTML = items.length
-        ? items.map(d => '<div class="flex items-center justify-between gap-2 rounded-xl border border-black/10 p-3"><span class="text-sm font-semibold">' + esc(d.title) + '</span><a href="' + esc(d.fiverrUrl || FIVERR_URL) + '" target="_blank" class="rounded-lg bg-[#066E45] px-3 py-1.5 text-xs font-semibold text-white">Order Fiverr ↗</a></div>').join('')
-        : '<p class="text-xs text-[#52525B]">Tap ★ on any bag card to save it here.</p>';
-    }
-
-    async function handleFilesPick(e) {
-      const errEl = document.getElementById('upload-error');
-      errEl.classList.add('hidden');
-      const files = Array.from(e.target.files || []);
-      for (const file of files) {
-        const isImg = (file.type && file.type.startsWith('image/')) || /\.(png|jpe?g|webp|gif|bmp|svg)$/i.test(file.name);
-        if (!isImg) continue;
-        try {
-          const dataUrl = await readAndOptimizeImage(file);
-          const cleanTitle = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
-          pendingImages.push({ dataUrl, defaultTitle: cleanTitle });
-        } catch {}
+    window.toggleSave = async (id) => {
+      if (!currentUser || !auth.currentUser) { window.openAccountModal(); return; }
+      const cleanId = sanitizeId(id);
+      const ref = doc(db, 'users', auth.currentUser.uid, 'saved', cleanId);
+      try {
+        if (savedIds.includes(cleanId)) {
+          await deleteDoc(ref);
+        } else {
+          await setDoc(ref, {
+            userId: auth.currentUser.uid,
+            designId: cleanId,
+            createdAt: serverTimestamp()
+          });
+        }
+      } catch (e) {
+        handleFirestoreError(e, 'write', 'users/' + auth.currentUser.uid + '/saved/' + cleanId);
       }
-      e.target.value = '';
-      renderPendingPreviews();
-    }
+    };
 
     function renderPendingPreviews() {
       const box = document.getElementById('upload-preview-list');
@@ -639,9 +677,29 @@
         '<div class="relative overflow-hidden rounded-lg border border-black/10 bg-white"><img src="' + item.dataUrl + '" class="aspect-[4/3] w-full object-cover" /><button type="button" onclick="removePending(' + idx + ')" class="absolute right-1 top-1 h-5 w-5 rounded-full bg-black/70 text-[10px] text-white">✕</button></div>'
       ).join('');
     }
-    function removePending(idx) { pendingImages.splice(idx, 1); renderPendingPreviews(); }
+    window.removePending = (idx) => { pendingImages.splice(idx, 1); renderPendingPreviews(); };
 
-    function startEditBag(id) {
+    window.handleFilesPick = async (e) => {
+      const errEl = document.getElementById('upload-error');
+      errEl.classList.add('hidden');
+      const files = Array.from(e.target.files || []);
+      for (const file of files) {
+        const isImg = (file.type && file.type.startsWith('image/')) || /\.(png|jpe?g|webp|gif|bmp)$/i.test(file.name);
+        if (!isImg) continue;
+        try {
+          const dataUrl = await optimizeImageForFirestore(file);
+          const cleanTitle = file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').trim();
+          pendingImages.push({ dataUrl, defaultTitle: cleanTitle });
+        } catch (err) {
+          errEl.textContent = err && err.message ? err.message : 'Image optimization failed.';
+          errEl.classList.remove('hidden');
+        }
+      }
+      e.target.value = '';
+      renderPendingPreviews();
+    };
+
+    window.startEditBag = (id) => {
       const d = designsState.find(x => x.id === id);
       if (!d) return;
       editingBagId = id;
@@ -655,84 +713,109 @@
       document.getElementById('bag-fiverr').value = d.fiverrUrl || FIVERR_URL;
       document.getElementById('publish-btn').textContent = 'Save Changes';
       document.getElementById('cancel-edit-btn').classList.remove('hidden');
-      openAccountModal('upload');
-    }
+      window.openAccountModal('upload');
+    };
 
-    function cancelEditBag() {
+    window.cancelEditBag = () => {
       editingBagId = null;
       pendingImages = [];
       renderPendingPreviews();
       document.getElementById('st-panel-upload').reset();
       document.getElementById('publish-btn').textContent = 'Publish Mylar Bag(s)';
       document.getElementById('cancel-edit-btn').classList.add('hidden');
-    }
+    };
 
-    async function handleUploadBags(e) {
+    window.handleUploadBags = async (e) => {
       e.preventDefault();
+      if (!auth.currentUser || !currentUser || currentUser.role !== 'admin') return;
       const errEl = document.getElementById('upload-error');
       const okEl = document.getElementById('upload-status');
       const btnEl = document.getElementById('publish-btn');
       errEl.classList.add('hidden');
       okEl.classList.add('hidden');
 
-      const baseTitle = document.getElementById('bag-title').value.trim();
-      const urlVal = document.getElementById('bag-url').value.trim();
+      const baseTitle = document.getElementById('bag-title').value.trim().slice(0, 160);
+      const urlVal = document.getElementById('bag-url').value.trim().slice(0, 700000);
       const cat = document.getElementById('bag-cat').value;
-      const finish = document.getElementById('bag-finish').value.trim() || 'Matte + Foil';
-      const dims = document.getElementById('bag-dims').value.trim() || '4.0" × 5.2" · 3.5g Stand-Up';
-      const fiverrUrl = document.getElementById('bag-fiverr').value.trim() || FIVERR_URL;
+      const finish = (document.getElementById('bag-finish').value.trim() || 'Matte + Foil').slice(0, 160);
+      const dims = (document.getElementById('bag-dims').value.trim() || '4.0" × 5.2" · 3.5g Stand-Up').slice(0, 160);
+      const fiverrUrl = (document.getElementById('bag-fiverr').value.trim() || FIVERR_URL).slice(0, 500);
+      const uid = auth.currentUser.uid;
 
       btnEl.disabled = true;
       btnEl.textContent = 'Publishing to Cloud...';
 
       try {
         if (editingBagId) {
-          const idx = designsState.findIndex(x => x.id === editingBagId);
-          if (idx !== -1) {
-            designsState[idx] = {
-              ...designsState[idx],
-              title: baseTitle || designsState[idx].title,
+          const docId = sanitizeId(editingBagId);
+          const existing = designsState.find(x => x.id === editingBagId);
+          const nextImg = (pendingImages[0]?.dataUrl || urlVal || existing?.imageUrl || existing?.presetKey || 'preset:cosmic-berry').slice(0, 700000);
+          const ref = doc(db, 'designs', docId);
+          const snap = await getDoc(ref);
+          if (snap.exists()) {
+            await updateDoc(ref, {
+              title: baseTitle || existing?.title || 'Custom Mylar Bag',
               category: cat,
               finish,
               dimensions: dims,
+              description: existing?.description || 'Custom print-ready Mylar bag design.',
+              imageUrl: nextImg,
               fiverrUrl,
-              imageUrl: pendingImages[0]?.dataUrl || urlVal || designsState[idx].imageUrl,
-            };
-            await cloudSave({ designs: designsState, heroImage: heroImageState });
+              updatedAt: serverTimestamp()
+            });
+          } else {
+            await setDoc(ref, {
+              id: docId,
+              title: baseTitle || existing?.title || 'Custom Mylar Bag',
+              category: cat,
+              finish,
+              dimensions: dims,
+              description: existing?.description || 'Custom print-ready Mylar bag design.',
+              imageUrl: nextImg,
+              fiverrUrl,
+              ownerId: uid,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp()
+            });
           }
-          cancelEditBag();
-          render();
-          closeAccountModal();
+          window.cancelEditBag();
+          window.closeAccountModal();
           return;
         }
 
         if (pendingImages.length === 0 && !urlVal) {
           errEl.textContent = 'Please select at least 1 bag image or paste an image URL first.';
           errEl.classList.remove('hidden');
-          btnEl.disabled = false;
-          btnEl.textContent = 'Publish Mylar Bag(s)';
           return;
         }
 
         let addedCount = 0;
         if (pendingImages.length > 0) {
-          const created = pendingImages.map((img, i) => ({
-            id: 'bag_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 6),
-            title: baseTitle
+          for (let i = 0; i < pendingImages.length; i++) {
+            const img = pendingImages[i];
+            const newId = sanitizeId('bag_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 6));
+            const title = (baseTitle
               ? (pendingImages.length > 1 ? baseTitle + ' #' + (i + 1) : baseTitle)
-              : (img.defaultTitle || 'Custom Mylar Bag #' + (i + 1)),
-            category: cat,
-            finish,
-            dimensions: dims,
-            description: 'Custom print-ready Mylar bag design.',
-            imageUrl: img.dataUrl,
-            fiverrUrl,
-          }));
-          designsState = [...created, ...designsState];
-          addedCount = created.length;
+              : (img.defaultTitle || 'Custom Mylar Bag #' + (i + 1))).slice(0, 160);
+            await setDoc(doc(db, 'designs', newId), {
+              id: newId,
+              title,
+              category: cat,
+              finish,
+              dimensions: dims,
+              description: 'Custom print-ready Mylar bag design.',
+              imageUrl: img.dataUrl.slice(0, 700000),
+              fiverrUrl,
+              ownerId: uid,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp()
+            });
+            addedCount++;
+          }
         } else {
-          designsState.unshift({
-            id: 'bag_' + Date.now(),
+          const newId = sanitizeId('bag_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6));
+          await setDoc(doc(db, 'designs', newId), {
+            id: newId,
             title: baseTitle || 'Custom Mylar Bag',
             category: cat,
             finish,
@@ -740,65 +823,84 @@
             description: 'Custom print-ready Mylar bag design.',
             imageUrl: urlVal,
             fiverrUrl,
+            ownerId: uid,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
           });
           addedCount = 1;
         }
 
-        await cloudSave({ designs: designsState, heroImage: heroImageState });
         pendingImages = [];
         renderPendingPreviews();
         e.target.reset();
-        render();
-        okEl.textContent = addedCount + ' Mylar bag(s) published globally to Cloud! Scroll down to view.';
+        okEl.textContent = addedCount + ' Mylar bag(s) published to Firebase Cloud! Visible everywhere.';
         okEl.classList.remove('hidden');
       } catch (err) {
-        errEl.textContent = 'Upload failed: ' + (err && err.message ? err.message : 'Please try again.');
+        errEl.textContent = 'Cloud publish failed: ' + (err && err.message ? err.message : 'Check permissions.');
         errEl.classList.remove('hidden');
       } finally {
         btnEl.disabled = false;
         btnEl.textContent = editingBagId ? 'Save Changes' : 'Publish Mylar Bag(s)';
       }
-    }
+    };
 
-    async function deleteDesign(id) {
-      designsState = designsState.filter(d => d.id !== id);
-      await cloudSave({ designs: designsState, heroImage: heroImageState });
-      render();
-    }
-
-    async function handleHeroFilePick(e) {
-      const f = e.target.files && e.target.files[0];
-      if (!f) return;
-      heroImageState = await readAndOptimizeImage(f);
-      await cloudSave({ designs: designsState, heroImage: heroImageState });
-      e.target.value = '';
-      render();
-      const hs = document.getElementById('hero-status');
-      hs.textContent = 'Hero image updated globally!';
-      hs.classList.remove('hidden');
-    }
-
-    async function resetHeroImage() {
-      heroImageState = '';
-      await cloudSave({ designs: designsState, heroImage: heroImageState });
-      render();
-    }
-
-    async function init() {
+    window.deleteDesign = async (id) => {
+      if (!currentUser || currentUser.role !== 'admin') return;
       try {
-        const cloudData = await cloudGet();
-        if (cloudData) {
-          if (Array.isArray(cloudData.designs) && cloudData.designs.length) {
-            designsState = cloudData.designs;
-          }
-          if (typeof cloudData.heroImage === 'string') {
-            heroImageState = cloudData.heroImage;
-          }
+        await deleteDoc(doc(db, 'designs', sanitizeId(id)));
+      } catch (e) {
+        handleFirestoreError(e, 'delete', 'designs/' + id);
+      }
+    };
+
+    window.handleHeroFilePick = async (e) => {
+      const f = e.target.files && e.target.files[0];
+      if (!f || !auth.currentUser) return;
+      const errEl = document.getElementById('hero-error');
+      const okEl = document.getElementById('hero-status');
+      errEl.classList.add('hidden');
+      okEl.classList.add('hidden');
+      try {
+        const dataUrl = await optimizeImageForFirestore(f);
+        const ref = doc(db, 'siteSettings', 'hero');
+        const snap = await getDoc(ref);
+        if (snap.exists()) {
+          await updateDoc(ref, {
+            heroImageUrl: dataUrl,
+            updatedBy: auth.currentUser.uid,
+            updatedAt: serverTimestamp()
+          });
+        } else {
+          await setDoc(ref, {
+            heroImageUrl: dataUrl,
+            updatedBy: auth.currentUser.uid,
+            updatedAt: serverTimestamp()
+          });
         }
-      } catch {}
-      render();
-    }
-    init();
+        okEl.textContent = 'Hero image updated in cloud!';
+        okEl.classList.remove('hidden');
+      } catch (err) {
+        errEl.textContent = err && err.message ? err.message : 'Hero upload failed.';
+        errEl.classList.remove('hidden');
+      } finally {
+        e.target.value = '';
+      }
+    };
+
+    window.resetHeroImage = async () => {
+      if (!auth.currentUser) return;
+      const ref = doc(db, 'siteSettings', 'hero');
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        await updateDoc(ref, {
+          heroImageUrl: '',
+          updatedBy: auth.currentUser.uid,
+          updatedAt: serverTimestamp()
+        });
+      }
+    };
+
+    render();
   </script>
 </body>
 </html>
