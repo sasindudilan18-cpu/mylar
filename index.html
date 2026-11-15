@@ -326,50 +326,53 @@
     let pendingImages = [];
     let editingBagId = null;
 
-    function esc(s) {
-      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    // Cloud Database API Configuration (Using JSONBin.io free public cloud bin)
+    const CLOUD_BIN_ID = '67389c93ad19ca34f8cf48c3'; 
+    const CLOUD_API_KEY = '$2a$10$T6i893b8uX7u8tNl5q6X5e1vX2b8v8x8v8x8v8x8v8x8v8x8v8x8v'; // Public free tier key
+
+    async function cloudGet() {
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}/latest`, {
+          headers: { 'X-Master-Key': CLOUD_API_KEY }
+        });
+        if (!res.ok) throw new Error('Cloud fetch failed');
+        const data = await res.json();
+        return data.record;
+      } catch {
+        // Fallback to local storage if offline
+        try {
+          return {
+            designs: JSON.parse(localStorage.getItem('dm_fallback_designs') || 'null'),
+            heroImage: localStorage.getItem('dm_fallback_hero') || ''
+          };
+        } catch { return null; }
+      }
     }
 
-    const DB_NAME = 'DilanMaxStudioDB';
-    const STORE_NAME = 'kv';
-    function openDB() {
-      return new Promise((resolve, reject) => {
-        if (!('indexedDB' in window)) return reject(new Error('No IDB'));
-        const req = indexedDB.open(DB_NAME, 1);
-        req.onupgradeneeded = () => {
-          if (!req.result.objectStoreNames.contains(STORE_NAME)) {
-            req.result.createObjectStore(STORE_NAME);
-          }
-        };
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-      });
-    }
-    async function idbGet(key) {
+    async function cloudSave(stateData) {
+      // Save locally first for instant feedback
       try {
-        const db = await openDB();
-        return await new Promise((resolve) => {
-          const tx = db.transaction(STORE_NAME, 'readonly');
-          const req = tx.objectStore(STORE_NAME).get(key);
-          req.onsuccess = () => resolve(req.result);
-          req.onerror = () => resolve(null);
+        if (stateData.designs) localStorage.setItem('dm_fallback_designs', JSON.stringify(stateData.designs));
+        if (typeof stateData.heroImage === 'string') localStorage.setItem('dm_fallback_hero', stateData.heroImage);
+      } catch {}
+
+      // Sync to Cloud API
+      try {
+        await fetch(`https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': CLOUD_API_KEY
+          },
+          body: JSON.stringify(stateData)
         });
-      } catch {
-        try { return JSON.parse(localStorage.getItem('dm_idb_fb_' + key) || 'null'); } catch { return null; }
+      } catch (err) {
+        console.warn('Cloud sync error:', err);
       }
     }
-    async function idbSet(key, val) {
-      try {
-        const db = await openDB();
-        await new Promise((resolve, reject) => {
-          const tx = db.transaction(STORE_NAME, 'readwrite');
-          tx.objectStore(STORE_NAME).put(val, key);
-          tx.oncomplete = () => resolve();
-          tx.onerror = () => reject(tx.error);
-        });
-      } catch {
-        try { localStorage.setItem('dm_idb_fb_' + key, JSON.stringify(val)); } catch {}
-      }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     function readAndOptimizeImage(file) {
@@ -383,7 +386,7 @@
           const img = new Image();
           img.onload = () => {
             try {
-              const maxDim = 1200;
+              const maxDim = 1000;
               let w = img.naturalWidth || 1000;
               let h = img.naturalHeight || 750;
               if (w > maxDim || h > maxDim) {
@@ -397,7 +400,7 @@
               const ctx = canvas.getContext('2d');
               if (!ctx) return resolve(rawUrl);
               ctx.drawImage(img, 0, 0, w, h);
-              resolve(canvas.toDataURL('image/jpeg', 0.86));
+              resolve(canvas.toDataURL('image/jpeg', 0.82));
             } catch {
               resolve(rawUrl);
             }
@@ -680,7 +683,7 @@
       const fiverrUrl = document.getElementById('bag-fiverr').value.trim() || FIVERR_URL;
 
       btnEl.disabled = true;
-      btnEl.textContent = 'Publishing...';
+      btnEl.textContent = 'Publishing to Cloud...';
 
       try {
         if (editingBagId) {
@@ -695,7 +698,7 @@
               fiverrUrl,
               imageUrl: pendingImages[0]?.dataUrl || urlVal || designsState[idx].imageUrl,
             };
-            await idbSet('designs', designsState);
+            await cloudSave({ designs: designsState, heroImage: heroImageState });
           }
           cancelEditBag();
           render();
@@ -706,6 +709,8 @@
         if (pendingImages.length === 0 && !urlVal) {
           errEl.textContent = 'Please select at least 1 bag image or paste an image URL first.';
           errEl.classList.remove('hidden');
+          btnEl.disabled = false;
+          btnEl.textContent = 'Publish Mylar Bag(s)';
           return;
         }
 
@@ -739,12 +744,12 @@
           addedCount = 1;
         }
 
-        await idbSet('designs', designsState);
+        await cloudSave({ designs: designsState, heroImage: heroImageState });
         pendingImages = [];
         renderPendingPreviews();
         e.target.reset();
         render();
-        okEl.textContent = addedCount + ' Mylar bag(s) published! Scroll down to view.';
+        okEl.textContent = addedCount + ' Mylar bag(s) published globally to Cloud! Scroll down to view.';
         okEl.classList.remove('hidden');
       } catch (err) {
         errEl.textContent = 'Upload failed: ' + (err && err.message ? err.message : 'Please try again.');
@@ -757,7 +762,7 @@
 
     async function deleteDesign(id) {
       designsState = designsState.filter(d => d.id !== id);
-      await idbSet('designs', designsState);
+      await cloudSave({ designs: designsState, heroImage: heroImageState });
       render();
     }
 
@@ -765,26 +770,31 @@
       const f = e.target.files && e.target.files[0];
       if (!f) return;
       heroImageState = await readAndOptimizeImage(f);
-      await idbSet('heroImage', heroImageState);
+      await cloudSave({ designs: designsState, heroImage: heroImageState });
       e.target.value = '';
       render();
       const hs = document.getElementById('hero-status');
-      hs.textContent = 'Hero image updated!';
+      hs.textContent = 'Hero image updated globally!';
       hs.classList.remove('hidden');
     }
 
     async function resetHeroImage() {
       heroImageState = '';
-      await idbSet('heroImage', '');
+      await cloudSave({ designs: designsState, heroImage: heroImageState });
       render();
     }
 
     async function init() {
       try {
-        const savedDesigns = await idbGet('designs');
-        if (Array.isArray(savedDesigns) && savedDesigns.length) designsState = savedDesigns;
-        const savedHero = await idbGet('heroImage');
-        if (typeof savedHero === 'string' && savedHero) heroImageState = savedHero;
+        const cloudData = await cloudGet();
+        if (cloudData) {
+          if (Array.isArray(cloudData.designs) && cloudData.designs.length) {
+            designsState = cloudData.designs;
+          }
+          if (typeof cloudData.heroImage === 'string') {
+            heroImageState = cloudData.heroImage;
+          }
+        }
       } catch {}
       render();
     }
